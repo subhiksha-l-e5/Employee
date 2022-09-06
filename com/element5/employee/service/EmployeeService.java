@@ -1,14 +1,16 @@
 /*
  * <p>
+ * Copyrights 2022 Element5
  * This package com.element5.employee.service has an interface EmployeeService 
  * </p>
  */
 package com.element5.employee.service;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.HibernateException;
 
 import com.element5.employee.dao.EmployeeDAO;
 import com.element5.employee.model.Employee;
@@ -50,8 +52,8 @@ public interface EmployeeService {
      * @param - project name of trainer
      *
      */    
-    public int addTrainer(String id, String name, String designation, float salary, LocalDate dateOfJoining, String emailId, 
-                           long mobileNumber, String project) throws SQLException;
+    public int addTrainer(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining, String emailId, 
+                           long mobileNumber, String project) throws HibernateException;
 
     /**
      * <p>
@@ -77,8 +79,8 @@ public interface EmployeeService {
      * @param - task name of trainee
      *
      */
-    public int addTrainee(String id, String name, String designation, float salary, LocalDate dateOfJoining, String emailId,
-                           long mobileNumber, String task, String trainerId) throws SQLException;
+    public int addTrainee(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining, String emailId,
+                           long mobileNumber, String task, String trainerId) throws HibernateException;
 
     /**
      * <p>
@@ -90,7 +92,7 @@ public interface EmployeeService {
      * @param - employee name for updation
      *
      */
-    public int modifyTrainerName(String id, String newName) throws SQLException;
+    public int modifyTrainerName(String employeeId, String newName) throws HibernateException;
 
     /**
      * <p>
@@ -102,7 +104,7 @@ public interface EmployeeService {
      * @param - employee name for updation
      *
      */
-    public int modifyTraineeName(String id, String newName) throws SQLException;
+    public int modifyTraineeName(String employeeId, String newName) throws HibernateException;
 
     /**
      * <p>
@@ -115,7 +117,7 @@ public interface EmployeeService {
      *
      * 
      */    
-    public int modifyTrainerDesignation(String id, String newDesignation) throws SQLException;
+    public int modifyTrainerDesignation(String employeeId, String newDesignation) throws HibernateException;
 
     /**
      * <p>
@@ -127,7 +129,7 @@ public interface EmployeeService {
      * @param - designation for updation
      *
      */    
-    public int modifyTraineeDesignation(String id, String newDesignation) throws SQLException;
+    public int modifyTraineeDesignation(String employeeId, String newDesignation) throws HibernateException;
 
     /**
      * <p>
@@ -139,7 +141,7 @@ public interface EmployeeService {
      * @param - salary for updation
      *
      */    
-    public int modifyTrainerSalary(String id, float newSalary) throws SQLException;
+    public int modifyTrainerSalary(String employeeId, float newSalary) throws HibernateException;
 
     /**
      * <p>
@@ -151,7 +153,7 @@ public interface EmployeeService {
      * @param - salary for updation
      *
      */  
-    public int modifyTraineeSalary(String id, float newSalary) throws SQLException; 
+    public int modifyTraineeSalary(String employeeId, float newSalary) throws HibernateException; 
 
     /**
      * <p>
@@ -163,7 +165,7 @@ public interface EmployeeService {
      * @param - project for updation
      *
      */  
-    public int modifyProject(String id, String newProject) throws SQLException;
+    public int modifyProject(String employeeId, String newProject) throws HibernateException;
 
     /**
      * <p>
@@ -175,7 +177,7 @@ public interface EmployeeService {
      * @param - task for updation
      *
      */  
-    public int modifyTask(String id, String newTask) throws SQLException; 
+    public int modifyTask(String employeeId, String newTask) throws HibernateException; 
 
     /**
      * <p>
@@ -186,7 +188,7 @@ public interface EmployeeService {
      *
      *
      */   
-    public int removeTrainer(String id) throws SQLException;
+    public int removeTrainer(String employeeId) throws HibernateException;
 
     /**
      * <p>
@@ -196,7 +198,7 @@ public interface EmployeeService {
      * @param - employee id
      *
      */  
-    public int removeTrainee(String id) throws SQLException;
+    public int removeTrainee(String employeeId) throws HibernateException;
 
     /**
      * <p>
@@ -206,7 +208,7 @@ public interface EmployeeService {
      * @param - employee id
      * 
      */  
-    public Trainer getTrainer(String id) throws SQLException; 
+    public Trainer getTrainer(String employeeId) throws HibernateException; 
 
     /**
      * <p>
@@ -216,7 +218,7 @@ public interface EmployeeService {
      * @param - employee id
      *
      */    
-    public Trainee getTrainee(String id) throws SQLException; 
+    public Trainee getTrainee(String employeeId) throws HibernateException; 
 
     /**
      * <p>
@@ -225,10 +227,10 @@ public interface EmployeeService {
      *
      * @return - String return unassigned trainer names
      *
-     */        
-    public List<String> getUnAssignedTrainer() throws SQLException; 
-
-   /**
+     */    
+    //public List<Trainer> getUnAssignedTrainer() throws HibernateException;
+ 
+    /**
      * <p>
      * This method  returns unassigned Trainee
      * </p>
@@ -236,7 +238,7 @@ public interface EmployeeService {
      * @return - String return unassigned trainee names
      *
      */      
-    public List<String> getUnAssignedTrainee() throws SQLException; 
+    //public List<Trainee> getUnAssignedTrainee() throws HibernateException; 
     
     /**
      * <p>
@@ -249,7 +251,7 @@ public interface EmployeeService {
      *
      * @return - int
      */         
-    public int assignTrainee(String trainerId, String traineeId) throws SQLException; 
+    public int assignTrainee(String trainerId, String traineeId) throws HibernateException; 
 
      
 }

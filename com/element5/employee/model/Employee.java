@@ -8,6 +8,14 @@
 package com.element5.employee.model;
 
 import java.time.LocalDate;
+import javax.persistence.Entity; 
+import javax.persistence.Column; 
+import javax.persistence.GeneratedValue;  
+import javax.persistence.GenerationType;   
+import javax.persistence.Id;  
+import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;    
+
 
 /**
  * <p>
@@ -20,15 +28,35 @@ import java.time.LocalDate;
  * @since 2022-08-17
  *
  */
+@MappedSuperclass
 public class Employee {
-    private String companyName = "element5";   
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private int id;
+
+    @Column(name = "company_name")
+    private String companyName = "element5";
+
+    @Column(name = "employee_id")   
+    private String employeeId;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "designation")
     private String designation;
+
+    @Column(name = "salary")
     private float salary;
+
+    @Column(name = "date_of_joining")
     private LocalDate dateOfJoining;
-    private int experience;
+
+    @Column(name = "email_id")
     private String emailId;
+
+    @Column(name = "mobile_number")
     private long mobileNumber;
   
     /**
@@ -53,8 +81,8 @@ public class Employee {
      * @return - void
      *
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
   
     /**
@@ -65,8 +93,8 @@ public class Employee {
      * @return - String returns employee id
      *
      */
-    public String getId() {
-        return id;
+    public String getEmployeeId() {
+        return employeeId;
     }
 
     /**
@@ -175,18 +203,6 @@ public class Employee {
         
     /**
      * <p>
-     * This method is used to return the experience
-     * </p>
-     *
-     * @return - int returns experience in years
-     *
-     */  
-     public int getExperience() {
-         return experience;
-     }
-
-    /**
-     * <p>
      * This method is used to set the email id given by user 
      * </p>
      *
@@ -236,7 +252,14 @@ public class Employee {
      public long getMobileNumber() {
          return mobileNumber;
      }
-     
+
+    /**
+     * <p>
+     * This is the default constructor of Trainer
+     * </p>
+     */
+    public Employee() {}  
+
     /**
      * <p>
      * This is the constructor of Employee 
@@ -259,8 +282,8 @@ public class Employee {
      * @param - mobile number is the employee's mobile number
      * 
      */         
-     public Employee(String id, String name, String designation, float salary, LocalDate dateOfJoining, String emailId, long mobileNumber) {
-         this.id = id;
+     public Employee(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining, String emailId, long mobileNumber) {
+         this.employeeId = employeeId;
          this.name = name;
          this.companyName = companyName;
          this.designation = designation;

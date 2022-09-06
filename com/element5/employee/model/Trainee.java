@@ -10,6 +10,10 @@
 package com.element5.employee.model;
 
 import java.time.LocalDate;
+import javax.persistence.Column;  
+import javax.persistence.Entity;  
+import javax.persistence.Id;  
+import javax.persistence.Table;  
 
 /**
  * <p>
@@ -22,10 +26,17 @@ import java.time.LocalDate;
  * @since 2022-08-17
  *
  */
-
+@Entity
+@Table(name = "Trainee")
 public class Trainee extends Employee {
+    @Column(name = "task")
     private String task;
+
+    @Column(name = "trainer_id")
     private String trainerId;
+
+    @Column(name = "is_Active")
+    private boolean isActive = true;
 
     /**
      * <p>
@@ -81,6 +92,29 @@ public class Trainee extends Employee {
    
     /**
      * <p>
+     * This method is used to set trainee as not active
+     * </p>
+     *
+     * @param - boolean isActive stores whether the trainee is active
+     *
+     * @return - void
+     *
+     */
+    public void setNotActive(boolean isActive) {
+       this.isActive = isActive;
+     }
+
+    /**
+     * <p>
+     * This is the default constructor of Trainee
+     * </p>
+     */
+    public Trainee() {
+       super();
+    }
+  
+    /**
+     * <p>
      * This is the constructor of Trainee
      * </p>
      *
@@ -101,9 +135,9 @@ public class Trainee extends Employee {
      * @param - task is the task name of trainee
      *
      */    
-    public Trainee(String id, String name, String designation, float salary,
+    public Trainee(String employeeId, String name, String designation, float salary,
                    LocalDate dateOfJoining, String emailId, long mobileNumber, String task, String traineeId) {
-        super( id, name, designation, salary, dateOfJoining, emailId, mobileNumber);  
+        super(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber);  
         this.task = task;
         this.trainerId = trainerId;
     } 
@@ -117,12 +151,11 @@ public class Trainee extends Employee {
      * 
      */    
     public String toString() {
-        return( "ID"+"\t" +getId()+"\n"
+        return( "ID"+"\t" +getEmployeeId()+"\n"
                 +"Name"+"\t" +getName()+"\n"
                 +"Companyname"+"\t" +getCompanyName()+"\n"
                 +"Designation"+"\t" +getDesignation()+"\n"
                 +"Email"+"\t" +getEmailId()+"\n"
-                +"Experience"+"\t" +getExperience()+"\n"
                 +"dateOfJoining"+"\t" +getDateOfJoining()+"\n"
                 +"Mobile Number"+"\t" +getMobileNumber()+"\n"
                 +"Task"+"\t" +getTask());

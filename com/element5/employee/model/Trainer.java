@@ -1,6 +1,6 @@
 /*
  * <p>
- * Copyrights 2022 element5
+ * Copyrights 2022 Element5
  * This package com.element5.employee.model has the class Trainer
  *
  * {@link  Trainer}
@@ -11,7 +11,13 @@ package com.element5.employee.model;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import javax.persistence.CascadeType;  
+import javax.persistence.Column;  
+import javax.persistence.Entity;  
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;    
+import javax.persistence.OneToMany;    
+import javax.persistence.Table;  
 
 /**
  * <p>
@@ -24,9 +30,17 @@ import java.util.List;
  * @since 2022-08-17
  *
  */
+@Entity
+@Table(name = "Trainer")
 public class Trainer extends Employee {
+    @Column(name = "project")
     private String project;
-    
+
+    @Column(name = "is_Active")
+    private boolean isActive = true;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "trainer_id")
     private List<Trainee> trainees;
 
     /**
@@ -54,33 +68,38 @@ public class Trainer extends Employee {
     public String getProject() {
         return project;
     }
-   
-    /**
-     * <p>
-     * This method is used to set trainees given by user
-     * </p>
-     *
-     * @param - trainees name is list of trainee names assigned to a trainer
-     *
-     * @return - void
-     *
-     */   
-    public void setTrainees(List<Trainee>  trainees) {
-        this.trainees = trainees;
-    }
 
-    /**
-     * <p>
-     * This method is used to return trainee names of a trainer
-     * </p>
-     *
-     * @return - Trainee
-     * 
-     */    
     public List<Trainee> getTrainees() {
         return trainees;
     }
+
+    public void setTrainees(List<Trainee> trainees) {
+        this.trainees = trainees;
+    }
    
+    /**
+     * <p>
+     * This method is used to set trainer as not active
+     * </p>
+     *
+     * @param - boolean isActive stores whether the trainer is active
+     *
+     * @return - void
+     *
+     */
+    public void setNotActive(boolean isActive) {
+       this.isActive = isActive;
+     }
+
+    /**
+     * <p>
+     * This is the default constructor of Trainer
+     * </p>
+     */
+    public Trainer() {
+        super();
+    }
+
     /**
      * <p>
      * This is the constructor of Trainer
@@ -120,16 +139,14 @@ public class Trainer extends Employee {
      * 
      */
     public String toString() {  
-        return("ID"+"\t" +getId()+"\n"
+        return("ID"+"\t" +getEmployeeId()+"\n"
                 +"Name"+"\t" +getName()+"\n"
                 +"Company Name"+"\t" +getCompanyName()+"\n"
                 +"Designation"+"\t" +getDesignation()+"\n"
-                +"Experience"+"\t" +getExperience()+"\n" 
                 +"Date of joining"+"\t" +getDateOfJoining()+"\n"
                 +"Email"+"\t" +getEmailId()+"\n"
                 +"Mobile Number"+"\t" +getMobileNumber()+"\n"
-                +"Project"+"\t" +getProject()+"\n"    
-                +"Trainees"+"\t" +getTrainees());
+                +"Project"+"\t" +getProject());
     }
  
 }

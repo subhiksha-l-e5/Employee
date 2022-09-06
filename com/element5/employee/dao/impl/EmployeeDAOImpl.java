@@ -1,24 +1,27 @@
 /*
  * <p>
+ * Copyrights 2022 Element5
  * This package com.element5.employee.dao.impl has EmployeeDao class
  * </p>
  */
 package com.element5.employee.dao.impl;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import org.hibernate.HibernateException;
+import org.hibernate.Query; 
+import org.hibernate.Session; 
+import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.boot.registry.StandardServiceRegistry; 
 
 import com.element5.employee.dao.EmployeeDAO;
 import com.element5.employee.model.Employee;
 import com.element5.employee.model.Trainee;
 import com.element5.employee.model.Trainer;
-import com.element5.employee.util.connectionUtil;
 
 /**
  * <p> 
@@ -31,12 +34,23 @@ import com.element5.employee.util.connectionUtil;
  * @since 2022-08-17
  *
  */ 
-public class EmployeeDAOImpl implements EmployeeDAO {  
-    private static List<Trainer> trainers = new ArrayList<Trainer>();
-    private static List<Trainee> trainees = new ArrayList<Trainee>();
-    private static List<String> trainerIds = new ArrayList<String>();
-    private static List<String> traineeIds = new ArrayList<String>();
+public class EmployeeDAOImpl implements EmployeeDAO { 
+    private static SessionFactory factory; 
 
+    /**
+     * <p>
+     * This method is used to return SessionFactory
+     * </p>
+     */ 
+    public SessionFactory getSessionFactory() {
+         factory = new Configuration().
+                   configure().
+                   addPackage("com.element5.employee.model").
+                   addAnnotatedClass(Trainer.class).
+                   addAnnotatedClass(Trainee.class).
+                   buildSessionFactory();
+        return factory;
+    }
     /**
      * <p>
      * This method is used to add Trainer
@@ -45,41 +59,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - trainer is the object of Trainer type
      *
      */ 
-    public int insertTrainer(Trainer trainer) throws SQLException {
+    public int insertTrainer(Trainer trainer) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into trainer values(?,?,?,?,?,?,?,?,?)");                                                                                           
-            preparedStatement.setString(1,trainer.getId()); 
-            preparedStatement.setString(2,trainer.getName());  
-            preparedStatement.setString(3,trainer.getDesignation());
-            preparedStatement.setFloat(4,trainer.getSalary());
-            preparedStatement.setDate(5,Date.valueOf(trainer.getDateOfJoining())); 
-            preparedStatement.setString(6,trainer.getEmailId());   
-            preparedStatement.setLong(7,trainer.getMobileNumber());
-            preparedStatement.setString(8,trainer.getProject());
-            preparedStatement.setBoolean(9,true);
-            inserted = preparedStatement.executeUpdate();  
-            preparedStatement.close();
-            connection.close();
-            return inserted; 
-        } catch (SQLException sqlException) {
-             throw new SQLException(sqlException.getMessage());
+            transaction = session.beginTransaction();
+            session.save(trainer);
+            transaction.commit();  
+        } catch (HibernateException hibernateException) {
+             throw new HibernateException(hibernateException.getMessage());
         } 
         return 0;      
     } 
-
-    /**
-     * <p>
-     * This method is used to return Trainer list
-     * </p>
-     *
-     * @return - List<Trainer> returns list of trainer
-     *
-     */   
-    public List<Trainer> getTrainers() {
-        return trainers;
-    }
-
+   
      /**
      * <p>
      * This method is used to add Trainee
@@ -88,41 +80,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - trainee is the object of Trainee type
      *
      */  
-    public int insertTrainee(Trainee trainee) throws SQLException {
+    public int insertTrainee(Trainee trainee) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into trainee values(?,?,?,?,?,?,?,?,?,?)");                                                                                         
-            preparedStatement.setString(1,trainee.getId()); 
-            preparedStatement.setString(2,trainee.getName());  
-            preparedStatement.setString(3,trainee.getDesignation());
-            preparedStatement.setFloat(4,trainee.getSalary());
-            preparedStatement.setDate(5,Date.valueOf(trainee.getDateOfJoining())); 
-            preparedStatement.setString(6,trainee.getEmailId());   
-            preparedStatement.setLong(7,trainee.getMobileNumber());
-            preparedStatement.setString(8,trainee.getTask());
-            preparedStatement.setString(9,trainee.getTrainerId());
-            preparedStatement.setBoolean(10,true);
-            int inserted = preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return inserted;        
-        } catch (SQLException sqlException) { 
-            throw new SQLException(sqlException.getMessage());
+            transaction = session.beginTransaction();
+            session.save(trainee);
+            transaction.commit();   
+        } catch (HibernateException hibernateException) { 
+            throw new HibernateException(hibernateException.getMessage());
         }
         return 0;       
     }
-  
-     /**
-     * <p>
-     * This method is used to return Trainee list
-     * </p>
-     *
-     * @return - List<Trainee> returns list of trainer
-     *
-     */   
-    public List<Trainee> getTrainees() {
-        return trainees;
-    }
+
     /**
      * <p>
      * This method is used to update name of Trainer   
@@ -133,18 +103,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - name  for updation
      *
      */
-    public int updateTrainerName(String id,String newName) throws SQLException { 
+    public int updateTrainerName(Trainer trainer) throws HibernateException { 
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainer set name = ? where id = ?"); 
-            preparedStatement.setString(1,newName);
-            preparedStatement.setString(2,id); 
-            int updated = preparedStatement.executeUpdate();
-            preparedStatement.close();  
-            connection.close();
-            return updated; 
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage());
+             transaction = session.beginTransaction();
+            session.update(trainer); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
         return 0; 
     }
@@ -159,20 +126,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - name  for updation
      *
      */  
-    public int updateTraineeName(String id, String newName) throws SQLException  {
+    public int updateTraineeName(Trainee trainee) throws HibernateException  {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainee set name = ? where id = ?"); 
-            preparedStatement.setString(1,newName);
-            preparedStatement.setString(2,id);
-            int updated = preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return updated;   
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage()); 
+            transaction = session.beginTransaction();
+            session.update(trainee); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
-        return 0;
+        return 0;    
     }
 
     /**
@@ -185,18 +149,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - Designation for updation
      *
      */      
-    public int updateTrainerDesignation(String id, String newDesignation) throws SQLException {
+    public int updateTrainerDesignation(Trainer trainer) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainer set designation = ? where id = ?"); 
-            preparedStatement.setString(1,newDesignation);
-            preparedStatement.setString(2,id);
-            int updated = preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close();
-            return updated;   
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage());
+            transaction = session.beginTransaction();
+            session.update(trainer); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
         return 0; 
     }
@@ -211,18 +172,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - Designation for updation
      *
      */      
-    public int updateTraineeDesignation(String id, String newDesignation) throws SQLException {
+    public int updateTraineeDesignation(Trainee trainee) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainee set designation = ? where id = ?"); 
-            preparedStatement.setString(1,newDesignation);
-            preparedStatement.setString(2,id);
-            int updated = preparedStatement.executeUpdate();
-            preparedStatement.close(); 
-            connection.close(); 
-            return updated; 
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage());
+            transaction = session.beginTransaction();
+            session.update(trainee); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
         return 0; 
     }
@@ -237,20 +195,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - Salary for updation
      *
      */     
-    public int updateTrainerSalary(String id, float newSalary) throws SQLException {
+    public int updateTrainerSalary(Trainer trainer) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainer set salary = ? where id = ?"); 
-            preparedStatement.setFloat(1,newSalary);
-            preparedStatement.setString(2,id);
-            int updated = preparedStatement.executeUpdate();
-            preparedStatement.close();
-            connection.close(); 
-            return updated;     
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage());
+            transaction = session.beginTransaction();
+            session.update(trainer); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
-        return 0;
+        return 0; 
     }
 
     /**
@@ -263,20 +218,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - Salary for updation
      *
      */    
-    public int updateTraineeSalary(String id, float newSalary) throws SQLException {
-        int isUpdated = 0;
+    public int updateTraineeSalary(Trainee trainee) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainee set salary = ? where id = ?"); 
-            preparedStatement.setFloat(1,newSalary);
-            preparedStatement.setString(2,id);
-            int updated = preparedStatement.executeUpdate(); 
-            preparedStatement.close();
-            connection.close(); 
-            return updated;    
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage());
-        } 
+            transaction = session.beginTransaction();
+            session.update(trainee); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
+        }
         return 0; 
     }
 
@@ -290,20 +241,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - project for updation
      *
      */   
-    public int updateProject(String id, String newProject) throws SQLException {
+    public int updateProject(Trainer trainer) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainer set project = ? where id = ?"); 
-            preparedStatement.setString(1,newProject);
-            preparedStatement.setString(2,id); 
-            int updated = preparedStatement.executeUpdate(); 
-            preparedStatement.close();  
-            connection.close(); 
-            return updated;
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage());
+            transaction = session.beginTransaction();
+            session.update(trainer); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
-        return 0;
+        return 0; 
     } 
 
     /**
@@ -316,20 +264,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - newTask is the Task for updation
      *
      */          
-   public int updateTask(String id, String newTask) throws SQLException {
+    public int updateTask(Trainee trainee) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainee set task = ? where id = ?"); 
-            preparedStatement.setString(1,newTask);
-            preparedStatement.setString(2,id);
-            int updated = preparedStatement.executeUpdate(); 
-            preparedStatement.close();  
-            connection.close();
-            return updated;  
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage());
+            transaction = session.beginTransaction();
+            session.update(trainee); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
-        return 0; 
+        return 0;    
     }
 
     /**
@@ -340,20 +285,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - index is used to check the id given by user to delete
      *
      */                  
-    public int deleteTrainer(String id) throws SQLException {
+    public int deleteTrainer(Trainer trainer) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainer set is_active = ?  where id = ?"); 
-            preparedStatement.setBoolean(1,false);
-            preparedStatement.setString(2,id);
-            int deleted = preparedStatement.executeUpdate(); 
-            preparedStatement.close(); 
-            connection.close();
-            return deleted;       
-        } catch(SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage());
+            transaction = session.beginTransaction();
+            session.update(trainer); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
-        return 0;  
+        return 0; 
     }  
 
     /**
@@ -364,18 +306,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - index is used to check the id given by user to delete
      *
      */              
-    public int deleteTrainee(String id) throws SQLException {
+    public int deleteTrainee(Trainee trainee) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainee set is_active = ? where id = ?"); 
-            preparedStatement.setBoolean(1,false);
-            preparedStatement.setString(2,id);
-            int deleted = preparedStatement.executeUpdate(); 
-            preparedStatement.close();
-            connection.close();
-            return deleted;    
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage()); 
+            transaction = session.beginTransaction(); 
+            session.update(trainee); 
+            transaction.commit();   
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
         return 0; 
     }
@@ -388,43 +327,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - index is used to check the id given by user to view
      *
      */       
-    public Trainer retrieveTrainer(String id) throws SQLException {
+    public Trainer retrieveTrainer(String employeeId) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance();
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from trainer  where id = ?"); 
-            preparedStatement.setString(1,id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            Trainer trainer = new Trainer(resultSet.getString("id"),
-                                  resultSet.getString("name"),
-                                  resultSet.getString("designation"),
-                                  resultSet.getFloat("salary"),
-                                  resultSet.getDate("date_of_joining").toLocalDate(),
-                                  resultSet.getString("email_id"),  
-                                  resultSet.getLong("mobilenumber"),
-                                  resultSet.getString("project")); 
-            preparedStatement = connection.prepareStatement("select * from trainee  where trainer_id = ?"); 
-            preparedStatement.setString(1,id);
-            resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            Trainee trainee = new Trainee(resultSet.getString("id"),
-                                  resultSet.getString("name"),
-                                  resultSet.getString("designation"),
-                                  resultSet.getFloat("salary"),
-                                  resultSet.getDate("date_of_joining").toLocalDate(),
-                                  resultSet.getString("email_id"),  
-                                  resultSet.getLong("mobilenumber"),
-                                  resultSet.getString("task"),
-                                  resultSet.getString("trainer_id"));  
-            trainees.add(trainee);
-            trainer.setTrainees(trainees); 
-            preparedStatement.close();
-            connection.close();
-            return trainer;                              
-         } catch (SQLException sqlException) {
-             throw new SQLException(sqlException.getMessage());  
-         } 
-         return null;      
+            transaction = session.beginTransaction();
+            String hql = "from trainer  where employee_id =:employeeId";
+            Query query = session.createQuery(hql);
+            query.setParameter("employeeId",employeeId);
+            transaction.commit();   
+            return (Trainer) query.uniqueResult();                    
+         } catch (HibernateException hibernateException) {
+             throw new HibernateException(hibernateException.getMessage());  
+         }      
     }
 
     /**
@@ -435,29 +350,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - index is used to check the id given by user to view
      *
      */       
-    public Trainee retrieveTrainee(String id) throws SQLException {
+    public Trainee retrieveTrainee(String employeeId) throws HibernateException {
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from trainee  where id = ?"); 
-            preparedStatement.setString(1,id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            Trainee trainee = new Trainee(resultSet.getString("id"),
-                                  resultSet.getString("name"),
-                                  resultSet.getString("designation"),
-                                  resultSet.getFloat("salary"),
-                                  resultSet.getDate("date_of_joining").toLocalDate(),
-                                  resultSet.getString("email_id"),  
-                                  resultSet.getLong("mobilenumber"),
-                                  resultSet.getString("task"),
-                                  resultSet.getString("trainer_id"));   
-             preparedStatement.close();
-             connection.close();
-             return trainee;                                         
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage()); 
+            transaction = session.beginTransaction();
+            String hql = "from trainee  where employee_id =: employeeId";
+            Query query = session.createQuery(hql);
+            query.setParameter("employeeId",employeeId);
+            transaction.commit();
+            return (Trainee) query.uniqueResult();
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
-        return null;    
     }
 
     /**
@@ -468,22 +373,22 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - index is used to view the name of trainer
      *
      */       
-     public List<String> retrieveUnAssignedTrainer() throws SQLException {
+     /*public List<Trainer> retrieveUnAssignedTrainer() throws HibernateException {
+         Session session = getSessionFactory().openSession();
+         Transaction transaction = null;
          try {
-             Connection connection = connectionUtil.getInstance(); 
-             PreparedStatement preparedStatement = connection.prepareStatement("select trainer.id from trainer  left join trainee on " 
-                                                                               +"trainer.id != trainee.trainer_id"); 
-             ResultSet resultSet = preparedStatement.executeQuery();
-             resultSet.next();
-             trainerIds.add(resultSet.getString("id"));
-             preparedStatement.close();
-             connection.close();
-             return trainerIds;     
-         } catch (SQLException sqlException) {
-             throw new SQLException(sqlException.getMessage());  
+            transaction = session.beginTransaction();
+            String hql = " select t.employee_id, t.name from trainer t where r.trainer_id from trainee r != t.employee_id";
+            Query query = session.createQuery(hql); 
+           // query.setParameter("trainerId",null);
+            List<Trainer> trainers = query.list();
+            transaction.commit();
+            return(trainers);     
+         } catch (HibernateException hibernateException) {
+             throw new HibernateException(hibernateException.getMessage());  
          }          
          return null;          
-    }
+    }*/
 
     /**
      * <p>
@@ -493,22 +398,25 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - index is used to view the name of trainee
      *
      */           
-    public List<String> retrieveUnAssignedTrainee() throws SQLException{
+    /*public List<Trainee> retrieveUnAssignedTrainee() throws HibernateException{
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance(); 
-            PreparedStatement preparedStatement = connection.prepareStatement("select id from trainee  where trainer_id = ?"); 
-            preparedStatement.setString(1,"null");
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            traineeIds.add(resultSet.getString("id"));
-            preparedStatement.close();
-            connection.close();
-            return traineeIds;
-        } catch (SQLException sqlException) {
-            throw new SQLException(sqlException.getMessage());  
+            transaction = session.beginTransaction();
+            String hql = "select employee_id ,name from trainee  where trainer_id =: trainerId";
+            Query query = session.createQuery(hql);
+            query.setParameter("trainerId",null);
+            List<Trainee> trainees = query.list();
+             for (Trainee aTrainee : trainees) {
+                   System.out.println( aTrainee.getEmployeeId()+aTrainee.getName());
+                                   }
+            transaction.commit();
+            return(trainees); 
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());  
         }          
-        return null;
-    }
+        //return null;
+    }*/
 
      /**
      * <p>
@@ -521,18 +429,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      *
      * @return - void
      */     
-    public int assignTrainee(String trainerId, String traineeId) throws SQLException{
+    public int assignTrainee(Trainer trainer) throws HibernateException{
+        Session session = getSessionFactory().openSession();
+        Transaction transaction = null;
         try {
-            Connection connection = connectionUtil.getInstance();
-            PreparedStatement preparedStatement = connection.prepareStatement("update trainee set trainer_id = ? where id = ?");                                                                                           
-            preparedStatement.setString(1,trainerId); 
-            preparedStatement.setString(2,traineeId);  
-            int assigned = preparedStatement.executeUpdate();
-            preparedStatement.close();  
-            connection.close(); 
-        } catch (SQLException sqlException) {
-            System.out.println(sqlException.getMessage());
+            transaction = session.beginTransaction();
+            session.persist(trainer); 
+            transaction.commit(); 
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());
         }
-        return null;        
-    }      
+        return 0;        
+    }     
 }

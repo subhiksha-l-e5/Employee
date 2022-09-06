@@ -1,13 +1,16 @@
 /*
  * <p>
+ * Copyrights 2022 Element5
  * This package com.element5.employee.dao has an interface EmployeeDAO
  * </p>
  */
 package com.element5.employee.dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
 
 import com.element5.employee.model.Employee;
 import com.element5.employee.model.Trainee;
@@ -23,6 +26,14 @@ import com.element5.employee.model.Trainer;
  *
  */
 public interface EmployeeDAO {
+     /**
+     * <p>
+     * This method is used to return SessionFactory
+     * </p>
+     *
+     */
+    public SessionFactory getSessionFactory();
+
     /**
      * <p>
      * This method is used to add Trainer
@@ -31,17 +42,7 @@ public interface EmployeeDAO {
      * @param - trainer is the object of Trainer type
      *
      */
-    public int insertTrainer(Trainer trainer) throws SQLException;
-
-    /**
-     * <p>
-     * This method is used to return Trainer list
-     * </p>
-     *
-     * @return - List<Trainer> returns Trainer
-     *
-     */
-    public List<Trainer> getTrainers();
+    public int insertTrainer(Trainer trainer) throws HibernateException;
 
     /**
      * <p>
@@ -51,18 +52,8 @@ public interface EmployeeDAO {
      * @param - trainee is the object of Trainee type
      *
      */
-    public int insertTrainee(Trainee trainee) throws SQLException ;
+    public int insertTrainee(Trainee trainee) throws HibernateException ;
 
-    /**
-     * <p>
-     * This method is used to return Trainee list
-     * </p>
-     *
-     * @return - List<Trainee> returns Trainee
-     *
-     */
-    public List<Trainee> getTrainees();
-    
     /**
      * <p>
      * This method is used to update name of Trainer
@@ -73,7 +64,7 @@ public interface EmployeeDAO {
      * @param - name  for updation
      *
      */
-    public int updateTrainerName(String id, String newName) throws SQLException ;
+    public int updateTrainerName(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -85,7 +76,7 @@ public interface EmployeeDAO {
      * @param - name  for updation
      *
      */
-    public int updateTraineeName(String id, String newName) throws SQLException ;
+    public int updateTraineeName(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -97,7 +88,7 @@ public interface EmployeeDAO {
      * @param - Designation for updation
      *
      */   
-    public int updateTrainerDesignation(String id, String newDesignation) throws SQLException ;
+    public int updateTrainerDesignation(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -109,7 +100,7 @@ public interface EmployeeDAO {
      * @param - Designation for updation
      *
      */    
-    public int updateTraineeDesignation(String id, String newDesignation) throws SQLException ; 
+    public int updateTraineeDesignation(Trainee trainee) throws HibernateException ; 
 
     /**
      * <p>
@@ -121,7 +112,7 @@ public interface EmployeeDAO {
      * @param - Salary for updation
      *
      */   
-    public int updateTrainerSalary(String id, float newSalary) throws SQLException ;
+    public int updateTrainerSalary(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -133,7 +124,7 @@ public interface EmployeeDAO {
      * @param - Salary for updation
      *
      */   
-    public int updateTraineeSalary(String id, float newSalary) throws SQLException ;
+    public int updateTraineeSalary(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -145,7 +136,7 @@ public interface EmployeeDAO {
      * @param - project for updation
      *
      */   
-    public int updateProject(String id, String newProject) throws SQLException ;
+    public int updateProject(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -157,7 +148,7 @@ public interface EmployeeDAO {
      * @param - Task for updation
      *
      */   
-    public int updateTask(String id, String newTask) throws SQLException ;
+    public int updateTask(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -168,7 +159,7 @@ public interface EmployeeDAO {
      *
      *
      */   
-    public int deleteTrainer(String id) throws SQLException ;
+    public int deleteTrainer(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -178,7 +169,7 @@ public interface EmployeeDAO {
      * @param - index is used to check the id given by user to delete
      *
      */   
-    public int deleteTrainee(String id) throws SQLException ;
+    public int deleteTrainee(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -188,7 +179,7 @@ public interface EmployeeDAO {
      * @param - index is used to check the id given by user to view
      *
      */   
-    public Trainer retrieveTrainer(String id) throws SQLException ;
+    public Trainer retrieveTrainer(String id) throws HibernateException ;
 
     /**
      * <p>
@@ -198,7 +189,7 @@ public interface EmployeeDAO {
      * @param - index is used to check the id given by user to view
      *
      */       
-    public Trainee retrieveTrainee(String id) throws SQLException; 
+    public Trainee retrieveTrainee(String id) throws HibernateException; 
 
     /**
      * <p>
@@ -208,7 +199,7 @@ public interface EmployeeDAO {
      * @param - index is used to view the name of unassigned Trainer
      *
      */      
-    public List<String> retrieveUnAssignedTrainer() throws SQLException; 
+   // public List<Trainer> retrieveUnAssignedTrainer() throws HibernateException; 
 
     /**
      * <p>
@@ -218,7 +209,7 @@ public interface EmployeeDAO {
      * @param - index is used to view the name of unassigned Trainee
      *
      */       
-    public List<String> retrieveUnAssignedTrainee() throws SQLException; 
+   // public List<Trainee> retrieveUnAssignedTrainee() throws HibernateException; 
 
      /**
      * <p>
@@ -230,6 +221,6 @@ public interface EmployeeDAO {
      * @param - trainee id
      *
      */          
-    public int assignTrainee(String trainerId, String traineeId) throws SQLException; 
+    public int assignTrainee(Trainer trainer) throws HibernateException; 
      
 }

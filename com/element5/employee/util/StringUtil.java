@@ -48,7 +48,7 @@ public class StringUtil {
      *
      */      
     public static boolean isValidName(String name) {
-        Pattern pattern = Pattern.compile("[A-Z]{1}[.]{1}[a-z\s]{2,}");
+        Pattern pattern = Pattern.compile("[A-Z]{1}[.]{1}[a-z\\t\\p{Zs}]{2,}");
         Matcher matcher = pattern.matcher(name);
         boolean isValid = matcher.matches();
         return isValid;
@@ -65,7 +65,7 @@ public class StringUtil {
      *
      */     
     public static boolean isValidDesignation(String designation) {
-        Pattern pattern = Pattern.compile("[A-Za-z\s]{2,}");
+        Pattern pattern = Pattern.compile("[A-Za-z\\t\\p{Zs}]{2,}");
         Matcher matcher = pattern.matcher(designation);
         boolean isValid = matcher.matches();
         return isValid;

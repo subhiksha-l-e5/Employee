@@ -1,12 +1,12 @@
 /*
  * <p>
- * Copyrights 2022 element5
+ * Copyrights 2022 Element5
  * This package com.element5.employee.service.impl has EmployeeService class
  * </p>
  */
 package com.element5.employee.service.impl;
 
-import java.sql.SQLException;
+import org.hibernate.HibernateException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +56,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param - project name of trainer
      *
      */
-    public int addTrainer(String id, String name, String designation, float salary, LocalDate dateOfJoining,
-                           String emailId, long mobileNumber, String project) throws SQLException{
-        Trainer trainer = new Trainer(id, name, designation, salary, dateOfJoining, emailId, mobileNumber, project);
+    public int addTrainer(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining,
+                           String emailId, long mobileNumber, String project) throws HibernateException{
+        Trainer trainer = new Trainer(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, project);
         return employeeDaoImpl.insertTrainer(trainer);
     }
  
@@ -86,9 +86,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param - task name of trainee
      *
      */
-    public int addTrainee(String id, String name, String designation, float salary, LocalDate dateOfJoining,
-                           String emailId, long mobileNumber, String task, String trainerId) throws SQLException {
-        Trainee trainee = new Trainee( id, name, designation, salary, dateOfJoining, emailId, mobileNumber, task, trainerId);
+    public int addTrainee(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining,
+                           String emailId, long mobileNumber, String task, String trainerId) throws HibernateException {
+        Trainee trainee = new Trainee( employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, task, trainerId);
         return employeeDaoImpl.insertTrainee(trainee);
     }
 
@@ -103,8 +103,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      *
      * @return - int
      */
-    public int modifyTrainerName(String id, String newName) throws SQLException { 
-        return employeeDaoImpl.updateTrainerName(id, newName);     
+    public int modifyTrainerName(String employeeId, String newName) throws HibernateException { 
+        Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
+        trainer.setName(newName); 
+        return employeeDaoImpl.updateTrainerName(trainer);     
     }
 
     /**
@@ -119,8 +121,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *
      */
-    public int modifyTraineeName(String id, String newName) throws SQLException { 
-        return employeeDaoImpl.updateTraineeName(id, newName);    
+    public int modifyTraineeName(String employeeId, String newName) throws HibernateException { 
+        Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
+        trainee.setName(newName);
+        return employeeDaoImpl.updateTraineeName(trainee);   
     }
 
     /**
@@ -134,8 +138,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *    
      */
-    public int modifyTrainerDesignation(String id, String newDesignation) throws SQLException {
-        return employeeDaoImpl.updateTrainerDesignation(id, newDesignation);
+    public int modifyTrainerDesignation(String employeeId, String newDesignation) throws HibernateException {
+        Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
+        trainer.setDesignation(newDesignation);
+        return employeeDaoImpl.updateTrainerDesignation(trainer);    
     }
 
     /**
@@ -150,8 +156,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *
      */   
-    public int modifyTraineeDesignation(String id, String newDesignation) throws SQLException {
-        return employeeDaoImpl.updateTraineeDesignation(id, newDesignation);
+    public int modifyTraineeDesignation(String employeeId, String newDesignation) throws HibernateException {
+        Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
+        trainee.setDesignation(newDesignation);
+        return employeeDaoImpl.updateTraineeDesignation(trainee);
     } 
 
     /**
@@ -166,8 +174,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *
      */  
-    public int modifyTrainerSalary(String id, float newSalary) throws SQLException {
-        return employeeDaoImpl.updateTrainerSalary(id, newSalary);
+    public int modifyTrainerSalary(String employeeId, float newSalary) throws HibernateException {
+        Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
+        trainer.setSalary(newSalary);
+        return employeeDaoImpl.updateTrainerSalary(trainer);
     }
 
     /**
@@ -181,8 +191,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *
      */  
-    public int modifyTraineeSalary(String id, float newSalary) throws SQLException {
-        return employeeDaoImpl.updateTraineeSalary(id, newSalary);
+    public int modifyTraineeSalary(String employeeId, float newSalary) throws HibernateException {
+        Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
+        trainee.setSalary(newSalary);
+        return employeeDaoImpl.updateTraineeSalary(trainee);
     }
 
     /**
@@ -197,8 +209,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *
      */  
-    public int modifyProject(String id, String newProject) throws SQLException {
-        return employeeDaoImpl.updateProject(id, newProject);
+    public int modifyProject(String employeeId, String newProject) throws HibernateException {
+        Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
+        trainer.setProject(newProject);
+        return employeeDaoImpl.updateProject(trainer);
     }
 
     /**
@@ -212,8 +226,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *
      */  
-    public int modifyTask(String id, String newTask) throws SQLException {
-        return employeeDaoImpl.updateTask(id, newTask);
+    public int modifyTask(String employeeId, String newTask) throws HibernateException {
+        Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
+        trainee.setTask(newTask);
+        return employeeDaoImpl.updateTask(trainee);
     }
     /**
      * <p>
@@ -225,8 +241,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *
      */  
-    public int removeTrainer(String id) throws SQLException {
-        return employeeDaoImpl.deleteTrainer(id);
+    public int removeTrainer(String employeeId) throws HibernateException {
+        boolean isAssigned = false;
+        Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
+        trainer.setNotActive(isAssigned);
+        return employeeDaoImpl.deleteTrainer(trainer);
     }  
 
     /**
@@ -239,8 +258,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *
      */  
-    public int removeTrainee(String id) throws SQLException {
-        return employeeDaoImpl.deleteTrainee(id);
+    public int removeTrainee(String employeeId) throws HibernateException {
+        boolean isAssigned = false;
+        Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
+        trainee.setNotActive(isAssigned);
+        return employeeDaoImpl.deleteTrainee(trainee);    
     }
 
     /**
@@ -253,8 +275,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return - int
      *
      */     
-    public Trainer getTrainer(String id) throws SQLException {
-        return employeeDaoImpl.retrieveTrainer(id);   
+    public Trainer getTrainer(String employeeId) throws HibernateException {
+        return employeeDaoImpl.retrieveTrainer(employeeId);   
     }
 
     /**
@@ -265,8 +287,8 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param - employee id
      *
      */  
-    public Trainee getTrainee(String id) throws SQLException{
-        return employeeDaoImpl.retrieveTrainee(id);      
+    public Trainee getTrainee(String employeeId) throws HibernateException{
+        return employeeDaoImpl.retrieveTrainee(employeeId);      
     }
      
     /**
@@ -277,9 +299,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return Trainer returns trainer
      *
      */  
-   public List<String> getUnAssignedTrainer() throws SQLException {
+   /*public List<Trainer> getUnAssignedTrainer() throws HibernateException {
         return employeeDaoImpl.retrieveUnAssignedTrainer();
-   }
+   }*/
 
     /**
      * <p>
@@ -289,9 +311,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return Trainee returns trainee
      *
      */   
-   public List<String> getUnAssignedTrainee() throws SQLException {
+   /*public List<Trainee> getUnAssignedTrainee() throws HibernateException {
         return employeeDaoImpl.retrieveUnAssignedTrainee();        
-   }
+   }*/
    
     /**
      * <p>
@@ -304,9 +326,13 @@ public class EmployeeServiceImpl implements EmployeeService {
      *
      * @return - int
      */     
-    public int assignTrainee(String trainerId, String traineeId) throws SQLException {
-        return employeeDaoImpl.assignTrainee(trainerId, traineeId);
-        
+    public int assignTrainee(String trainerId, String traineeId) throws HibernateException {
+        Trainee trainee = employeeDaoImpl.retrieveTrainee(traineeId);
+        Trainer trainer = employeeDaoImpl.retrieveTrainer(trainerId);
+        List<Trainee> trainees = new ArrayList<Trainee>() ;
+        trainees.add(trainee);
+        trainer.setTrainees(trainees);
+        return employeeDaoImpl.assignTrainee(trainer);    
     }     
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyrights 2022 element5
+ * Copyrights 2022 Element5
  * <p>
  * This package com.element5.employee.controller has EmployeeController class
  * </p>
@@ -7,13 +7,13 @@
 package com.element5.employee.controller;
 
 import java.lang.NullPointerException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import org.hibernate.HibernateException;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -100,34 +100,34 @@ public class EmployeeController  {
     public void getEmployeeInputs(int userRole) {
         
         employeeLogger.info("Enter employee id:");
-        String id = getStringInput() ;     
-        while (!StringUtil.isValidId(id)) {
-            employeeLogger.error("Enter id in proper format eg:E520136");
-            id = getStringInput(); 
+        String employeeId = getStringInput() ;     
+        while (!StringUtil.isValidId(employeeId)) {
+            employeeLogger.error("Enter id in this format eg:E520136");
+            employeeId = getStringInput(); 
         }
         employeeLogger.info("Enter employee name:");
         String name = getStringInput();
         while (!StringUtil.isValidName(name)) {
-            employeeLogger.error("Enter name in proper format eg:L.subhiksha");
+            employeeLogger.error("Enter name in this format eg:L.subhiksha");
             name = getStringInput(); 
         }
         employeeLogger.info("Enter designation:"); 
         String designation = getInput(); 
         while (!StringUtil.isValidDesignation(designation)) {
-            employeeLogger.error("Enter name in proper format eg:software engineer");
+            employeeLogger.error("Enter name in this format eg:software engineer");
             designation = getInput(); 
         } 
         employeeLogger.info("Enter salary:");
         String salaryInput = getStringInput();  
         while (!StringUtil.isValidSalary(salaryInput)) {
-            employeeLogger.error("Enter salary in proper format eg:25000");
+            employeeLogger.error("Enter salary in this format eg:25000");
             salaryInput = getStringInput(); 
         }
         float salary= Float.parseFloat(salaryInput); 
         employeeLogger.info("Enter date of joining as yyyy-mm-dd");
         String dateInput = getStringInput();
         while (!DateUtil.isValidDate(dateInput)) {
-            employeeLogger.error("Enter  date in proper format eg:2002-02-02");
+            employeeLogger.error("Enter  date in this format eg:2002-02-02");
             dateInput = getStringInput(); 
         }  
         LocalDate dateOfJoining = LocalDate.parse(dateInput);
@@ -135,13 +135,13 @@ public class EmployeeController  {
         employeeLogger.info("Enter E-mail Id:");
         String emailId = getStringInput(); 
         while (!StringUtil.isValidEmail(emailId)) {
-            employeeLogger.error("Enter E-mail Id in proper format eg:abc@gmail.com");
+            employeeLogger.error("Enter E-mail Id in this format eg:abc@gmail.com");
             emailId = getStringInput(); 
         }  
         employeeLogger.info("Enter Mobile number:"); 
         String mobileNumberInput = getStringInput();
         while (!StringUtil.isValidMobileNumber(mobileNumberInput)) {
-            employeeLogger.error("Enter Mobile number in proper format with 10 digits"); 
+            employeeLogger.error("Enter Mobile number in this format with 10 digits"); 
             mobileNumberInput = getStringInput(); 
         }
         long mobileNumber = Long.parseLong(mobileNumberInput);
@@ -149,26 +149,26 @@ public class EmployeeController  {
             employeeLogger.info("Enter Project name:");
             String project = input.next(); 
             try {
-                if(1 == employeeServiceImpl.addTrainer(id, name, designation, salary, dateOfJoining, emailId, mobileNumber, project)) {
+                if(1 == employeeServiceImpl.addTrainer(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, project)) {
                     employeeLogger.info("Trainer added successfully");
                 } else {
                     employeeLogger.info("Trainer is not added");  
                 }     
-            } catch (SQLException  sqlException) {
-                employeeLogger.info(sqlException.getMessage());
+            } catch (HibernateException  hibernateException) {
+                employeeLogger.info(hibernateException.getMessage());
             }                    
         } else if (2 == userRole) {
             employeeLogger.info("Enter Task name:");
             String task = input.next(); 
             String trainerId = "null"; 
             try {  
-                if(1 == employeeServiceImpl.addTrainee(id, name, designation, salary, dateOfJoining, emailId, mobileNumber, task ,trainerId)) {
+                if(1 == employeeServiceImpl.addTrainee(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, task ,trainerId)) {
                      employeeLogger.info("Trainee added successfully");
                 } else {
                     employeeLogger.info("Trainee is not added");  
                 }     
-            } catch (SQLException sqlException) {
-                employeeLogger.info(sqlException.getMessage());
+            } catch (HibernateException hibernateException) {
+                employeeLogger.info(hibernateException.getMessage());
             }    
         }
     }
@@ -213,64 +213,64 @@ public class EmployeeController  {
                                 case 1:
                                     try {
                                         employeeLogger.info("Enter employee id:");
-                                        String id = input.next();
+                                        String employeeId = input.next();
                                         employeeLogger.info("Enter new name :");
                                         String newName = input.next();
-                                        if(1 == employeeServiceImpl.modifyTrainerName(id, newName)) {
+                                        if(1 == employeeServiceImpl.modifyTrainerName(employeeId, newName)) {
                                             employeeLogger.info("Trainer name modified  successfully");
                                         } else {
                                             employeeLogger.info("Trainer name is not modified");  
                                         }     
-                                    } catch (SQLException sqlException) {
-                                        employeeLogger.info(sqlException.getMessage());
+                                    } catch (HibernateException hibernateException) {
+                                        employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
      
                                 case 2:
                                     try {
                                         employeeLogger.info("Enter employee id:");
-                                        String id = input.next();
+                                        String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         String newDesignation = input.next();
-                                        if(1 == employeeServiceImpl.modifyTrainerDesignation(id, newDesignation)) {
+                                        if(1 == employeeServiceImpl.modifyTrainerDesignation(employeeId, newDesignation)) {
                                             employeeLogger.info("Trainer designation modified  successfully");
                                         } else {
                                             employeeLogger.info("Trainer designation is not modified");  
                                         }     
-                                    } catch (SQLException sqlException) {
-                                        employeeLogger.info(sqlException.getMessage());
+                                    } catch (HibernateException hibernateException) {
+                                        employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
                    
                                 case 3:
                                     try {
                                         employeeLogger.info("Enter employee id:");
-                                        String id = input.next();
+                                        String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         float newSalary = input.nextFloat();
-                                        if(1 == employeeServiceImpl.modifyTrainerSalary(id, newSalary)) {
+                                        if(1 == employeeServiceImpl.modifyTrainerSalary(employeeId, newSalary)) {
                                             employeeLogger.info("Trainer salary modified  successfully");
                                         } else {
                                             employeeLogger.info("Trainer salary is not modified");  
                                         }     
-                                    } catch (SQLException sqlException) {
-                                        employeeLogger.info(sqlException.getMessage());
+                                    } catch (HibernateException hibernateException) {
+                                        employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
  
                                case 4:
                                     try {
                                         employeeLogger.info("Enter employee id:");
-                                        String id = input.next();
+                                        String employeeId = input.next();
                                         employeeLogger.info("Enter new project :");
                                         String newProject = input.next();
-                                        if(1 == employeeServiceImpl.modifyProject(id, newProject)) {
+                                        if(1 == employeeServiceImpl.modifyProject(employeeId, newProject)) {
                                             employeeLogger.info("Trainer project modified  successfully");
                                         } else {
                                             employeeLogger.info("Trainer project is not modified");  
                                         }     
-                                    } catch (SQLException sqlException) {
-                                        employeeLogger.info(sqlException.getMessage());
+                                    } catch (HibernateException hibernateException) {
+                                        employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
                            }
@@ -279,60 +279,63 @@ public class EmployeeController  {
                            case 3:
                                try {
                                    employeeLogger.info("Enter id:");   
-                                   String id = input.next();
-                                   employeeLogger.info(employeeServiceImpl.getTrainer(id).toString());
+                                   String employeeId = input.next();
+                                   employeeLogger.info(employeeServiceImpl.getTrainer(employeeId).toString());
                                    break;
-                               } catch (SQLException sqlException) {
-                                   employeeLogger.info(sqlException.getMessage());
+                               } catch (HibernateException hibernateException) {
+                                   employeeLogger.info(hibernateException.getMessage());
                                }
                                break;
                    
                            case 4:
                                try {
                                    employeeLogger.info("Enter id:");   
-                                   String id = input.next();
-                                   if (1 == employeeServiceImpl.removeTrainer(id)) {
+                                   String employeeId = input.next();
+                                   if (1 == employeeServiceImpl.removeTrainer(employeeId)) {
                                        employeeLogger.info("Trainer deleted  successfully");
                                    } else {
                                        employeeLogger.info("Trainer is not deleted ");  
                                    }      
-                               } catch (SQLException sqlException) {
-                                   employeeLogger.info(sqlException.getMessage());
+                               } catch (HibernateException hibernateException) {
+                                   employeeLogger.info(hibernateException.getMessage());
                                }
                                break;     
                        
-                            case 5:        
-                                   try {
-                                       employeeLogger.info("Unassigned trainers:");  
-                                       employeeLogger.info(employeeServiceImpl.getUnAssignedTrainer().toString()); 
-                                   } catch (SQLException sqlException) {
-                                       employeeLogger.info(sqlException.getMessage());
-                                   }  
-                                   try {
-                                       employeeLogger.info("Unassigned trainees:"); 
-                                       employeeLogger.info(employeeServiceImpl.getUnAssignedTrainee().toString()); 
-                                   } catch (SQLException sqlException) {
-                                       employeeLogger.info(sqlException.getMessage());
-                                   } 
-                                   employeeLogger.info("Enter the trainer id:");
-                                   String trainerId = input.next();
-                                   employeeLogger.info("Enter the number of trainees:"); 
-                                   int numberOfTrainees = input.nextInt();                                 
-                                   for (int count = 1; count <= numberOfTrainees; count++) {
-                                       employeeLogger.info("Enter the trainee id:");
-                                       String traineeId = input.next();
-                                       try {
-                                           if (1 == employeeServiceImpl.assignTrainee(trainerId, traineeId)) {
-                                               employeeLogger.info("Trainer is assigned with trainee");
-                                           }else {
-                                               employeeLogger.info(" Trainee is not assigned");
-                                           }
-                                       } catch (SQLException sqlException) {
-                                            employeeLogger.info(sqlException.getMessage());
-                                       }     
+                           case 5:        
+                               /*try {
+                                   employeeLogger.info("Unassigned trainers:");  
+                                   employeeServiceImpl.getUnAssignedTrainer(); 
+                               } catch (HibernateException hibernateException) {
+                                   employeeLogger.info(hibernateException.getMessage());
+                               }  
+                               try {
+                                   employeeLogger.info("Unassigned trainees:"); 
+                                   List<Trainee> trainees = employeeServiceImpl.getUnAssignedTrainee(); 
+                                   for (Trainee aTrainee : trainees) {
+                                         employeeLogger.info( aTrainee.getEmployeeId()+aTrainee.getName());
                                    }
-                                   employeeLogger.info("Trainees assigned successfuly");   
-                                   break;
+                               } catch (HibernateException hibernateException) {
+                                       employeeLogger.info(hibernateException.getMessage());
+                               } */
+                               employeeLogger.info("Enter the trainer id:");
+                               String trainerId = input.next();
+                               employeeLogger.info("Enter the number of trainees:"); 
+                               int numberOfTrainees = input.nextInt();                                 
+                               for (int count = 1; count <= numberOfTrainees; count++) {
+                                   employeeLogger.info("Enter the trainee id:");
+                                   String traineeId = input.next();
+                                   try {
+                                       if (1 == employeeServiceImpl.assignTrainee(trainerId, traineeId)) {
+                                           employeeLogger.info("Trainer is assigned with trainee");
+                                       }else {
+                                           employeeLogger.info(" Trainee is not assigned");
+                                       }
+                                   } catch (HibernateException hibernateException) {
+                                       employeeLogger.info(hibernateException.getMessage());
+                                   }
+                               }     
+                               employeeLogger.info("Trainees assigned successfuly");   
+                               break;
 
                            case 6:
                                isContinue = false;
@@ -366,64 +369,64 @@ public class EmployeeController  {
                                 case 1:
                                     try {
                                         employeeLogger.info("Enter employee id:");
-                                        String id = input.next();
+                                        String employeeId = input.next();
                                         employeeLogger.info("Enter new name :");
                                         String newName = input.next();
-                                        if(1 == employeeServiceImpl.modifyTraineeName(id, newName)) {
+                                        if(1 == employeeServiceImpl.modifyTraineeName(employeeId, newName)) {
                                             employeeLogger.info("Trainee name modified  successfully");
                                         } else {
                                             employeeLogger.info("Trainee name is not modified");  
                                         }     
-                                    } catch (SQLException sqlException) {
-                                        employeeLogger.info(sqlException.getMessage());
+                                    } catch (HibernateException hibernateException) {
+                                        employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
      
                                 case 2:
                                     try {
                                         employeeLogger.info("Enter employee id:");
-                                        String id = input.next();
+                                        String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         String newDesignation = input.next();
-                                        if(1 == employeeServiceImpl.modifyTraineeDesignation(id, newDesignation)) {
+                                        if(1 == employeeServiceImpl.modifyTraineeDesignation(employeeId, newDesignation)) {
                                             employeeLogger.info("Trainee designation modified  successfully");
                                         } else {
                                             employeeLogger.info("Trainee designation is not modified");  
                                         }     
-                                    } catch (SQLException sqlException) {
-                                        employeeLogger.info(sqlException.getMessage());
+                                    } catch (HibernateException hibernateException) {
+                                        employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
                    
                                 case 3:
                                     try {
                                         employeeLogger.info("Enter employee id:");
-                                        String id = input.next();
+                                        String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         float newSalary = input.nextFloat();
-                                        if(1 == employeeServiceImpl.modifyTraineeSalary(id, newSalary)) {
+                                        if(1 == employeeServiceImpl.modifyTraineeSalary(employeeId, newSalary)) {
                                             employeeLogger.info("Trainee salary modified  successfully");
                                         } else {
                                             employeeLogger.info("Trainee salary is not modified");  
                                         }     
-                                    } catch (SQLException sqlException) {
-                                        employeeLogger.info(sqlException.getMessage());
+                                    } catch (HibernateException hibernateException) {
+                                        employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
  
                                case 4:
                                     try {
                                         employeeLogger.info("Enter employee id:");
-                                        String id = input.next();
+                                        String employeeId = input.next();
                                         employeeLogger.info("Enter new task :");
                                         String newTask = input.next();
-                                        if(1 == employeeServiceImpl.modifyProject(id, newTask)) {
+                                        if(1 == employeeServiceImpl.modifyTask(employeeId, newTask)) {
                                             employeeLogger.info("Trainee task modified  successfully");
                                         } else {
                                             employeeLogger.info("Trainee task is not modified");  
                                         }     
-                                    } catch (SQLException sqlException) {
-                                        employeeLogger.info(sqlException.getMessage());
+                                    } catch (HibernateException hibernateException) {
+                                        employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
                             }
@@ -432,24 +435,24 @@ public class EmployeeController  {
                             case 3:
                                 try {
                                     employeeLogger.info("Enter id:");   
-                                    String id = input.next();
-                                    employeeLogger.info(employeeServiceImpl.getTrainee(id).toString());
-                                } catch (SQLException sqlException) {
-                                    sqlException.getMessage();
+                                    String employeeId = input.next();
+                                    employeeLogger.info(employeeServiceImpl.getTrainee(employeeId).toString());
+                                } catch (HibernateException hibernateException) {
+                                    hibernateException.getMessage();
                                 }
                                 break;
                    
                             case 4:
                                 try {
                                     employeeLogger.info("Enter id:");   
-                                    String id = input.next();
-                                    if (1 == employeeServiceImpl.removeTrainee(id)) {
+                                    String employeeId = input.next();
+                                    if (1 == employeeServiceImpl.removeTrainee(employeeId)) {
                                         employeeLogger.info("Trainee deleted  successfully");
                                     } else {
                                         employeeLogger.info("Trainee is not deleted ");  
                                     }      
-                                } catch (SQLException sqlException) {
-                                    sqlException.getMessage();
+                                } catch (HibernateException hibernateException) {
+                                    hibernateException.getMessage();
                                 }
                                 break;
 
