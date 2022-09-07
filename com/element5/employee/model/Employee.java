@@ -8,14 +8,13 @@
 package com.element5.employee.model;
 
 import java.time.LocalDate;
-import javax.persistence.Entity; 
 import javax.persistence.Column; 
+import javax.persistence.Entity; 
 import javax.persistence.GeneratedValue;  
 import javax.persistence.GenerationType;   
-import javax.persistence.Id;  
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;      
 import javax.persistence.Table;
-import javax.persistence.MappedSuperclass;    
-
 
 /**
  * <p>

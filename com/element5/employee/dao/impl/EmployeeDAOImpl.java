@@ -10,13 +10,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder; 
+import org.hibernate.cfg.Configuration;
 import org.hibernate.HibernateException;
 import org.hibernate.Query; 
-import org.hibernate.Session; 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory; 
 import org.hibernate.Transaction;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.boot.registry.StandardServiceRegistry; 
 
 import com.element5.employee.dao.EmployeeDAO;
 import com.element5.employee.model.Employee;
@@ -35,7 +35,7 @@ import com.element5.employee.model.Trainer;
  *
  */ 
 public class EmployeeDAOImpl implements EmployeeDAO { 
-    private static SessionFactory factory; 
+    private static SessionFactory sessionFactory; 
 
     /**
      * <p>
@@ -43,13 +43,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * </p>
      */ 
     public SessionFactory getSessionFactory() {
-         factory = new Configuration().
-                   configure().
-                   addPackage("com.element5.employee.model").
+         Configuration configuration = new Configuration().
+                   configure("hibernate.cfg.xml").
                    addAnnotatedClass(Trainer.class).
-                   addAnnotatedClass(Trainee.class).
-                   buildSessionFactory();
-        return factory;
+                   addAnnotatedClass(Trainee.class);
+        StandardServiceRegistryBuilder reg = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+        SessionFactory sessionFactory = configuration.buildSessionFactory(reg.build());
+                
+        return sessionFactory;
     }
     /**
      * <p>
@@ -59,17 +60,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - trainer is the object of Trainer type
      *
      */ 
-    public int insertTrainer(Trainer trainer) throws HibernateException {
+    public void insertTrainer(Trainer trainer) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             session.save(trainer);
-            transaction.commit();  
+            transaction.commit(); 
         } catch (HibernateException hibernateException) {
-             throw new HibernateException(hibernateException.getMessage());
-        } 
-        return 0;      
+            throw new HibernateException(hibernateException.getMessage());
+        } finally {
+            session.close();
+        }     
     } 
    
      /**
@@ -80,17 +82,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - trainee is the object of Trainee type
      *
      */  
-    public int insertTrainee(Trainee trainee) throws HibernateException {
+    public void insertTrainee(Trainee trainee) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             session.save(trainee);
-            transaction.commit();   
+            transaction.commit(); 
         } catch (HibernateException hibernateException) { 
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0;       
+        } finally {
+            session.close();
+        }          
     }
 
     /**
@@ -103,17 +106,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - name  for updation
      *
      */
-    public int updateTrainerName(Trainer trainer) throws HibernateException { 
+    public void updateTrainerName(Trainer trainer) throws HibernateException { 
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
-             transaction = session.beginTransaction();
+            transaction = session.beginTransaction();
             session.update(trainer); 
             transaction.commit();   
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0; 
+        } finally {
+            session.close();
+        }     
     }
 
     /**
@@ -126,7 +130,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - name  for updation
      *
      */  
-    public int updateTraineeName(Trainee trainee) throws HibernateException  {
+    public void updateTraineeName(Trainee trainee) throws HibernateException  {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -135,8 +139,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             transaction.commit();   
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0;    
+        } finally {
+            session.close();
+        }     
     }
 
     /**
@@ -149,7 +154,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - Designation for updation
      *
      */      
-    public int updateTrainerDesignation(Trainer trainer) throws HibernateException {
+    public void updateTrainerDesignation(Trainer trainer) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -158,8 +163,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             transaction.commit();   
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0; 
+        } finally {
+            session.close();
+        }     
     }
 
     /**
@@ -172,7 +178,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - Designation for updation
      *
      */      
-    public int updateTraineeDesignation(Trainee trainee) throws HibernateException {
+    public void updateTraineeDesignation(Trainee trainee) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -181,8 +187,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             transaction.commit();   
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0; 
+        } finally {
+            session.close();
+        }     
     }
 
     /**
@@ -195,7 +202,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - Salary for updation
      *
      */     
-    public int updateTrainerSalary(Trainer trainer) throws HibernateException {
+    public void updateTrainerSalary(Trainer trainer) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -204,8 +211,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             transaction.commit();   
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0; 
+        } finally {
+            session.close();
+        }     
     }
 
     /**
@@ -218,7 +226,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - Salary for updation
      *
      */    
-    public int updateTraineeSalary(Trainee trainee) throws HibernateException {
+    public void updateTraineeSalary(Trainee trainee) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -227,8 +235,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             transaction.commit();   
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0; 
+        } finally {
+            session.close();
+        }     
     }
 
     /**
@@ -241,7 +250,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - project for updation
      *
      */   
-    public int updateProject(Trainer trainer) throws HibernateException {
+    public void updateProject(Trainer trainer) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -250,8 +259,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             transaction.commit();   
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0; 
+        } finally {
+            session.close();
+        }     
     } 
 
     /**
@@ -264,7 +274,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - newTask is the Task for updation
      *
      */          
-    public int updateTask(Trainee trainee) throws HibernateException {
+    public void updateTask(Trainee trainee) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -273,8 +283,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             transaction.commit();   
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0;    
+        } finally {
+            session.close();
+        }     
     }
 
     /**
@@ -285,17 +296,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - index is used to check the id given by user to delete
      *
      */                  
-    public int deleteTrainer(Trainer trainer) throws HibernateException {
+    public void deleteTrainer(Trainer trainer) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             session.update(trainer); 
-            transaction.commit();   
+            transaction.commit(); 
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0; 
+        } finally {
+            session.close();
+        }     
     }  
 
     /**
@@ -306,17 +318,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - index is used to check the id given by user to delete
      *
      */              
-    public int deleteTrainee(Trainee trainee) throws HibernateException {
+    public void deleteTrainee(Trainee trainee) throws HibernateException {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction(); 
             session.update(trainee); 
-            transaction.commit();   
+            transaction.commit();  
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0; 
+        } finally {
+            session.close();
+        }     
     }
 
     /**
@@ -337,9 +350,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             query.setParameter("employeeId",employeeId);
             transaction.commit();   
             return (Trainer) query.uniqueResult();                    
-         } catch (HibernateException hibernateException) {
-             throw new HibernateException(hibernateException.getMessage());  
-         }      
+        } catch (HibernateException hibernateException) {
+            throw new HibernateException(hibernateException.getMessage());  
+        } finally {
+            session.close();
+        }           
     }
 
     /**
@@ -362,7 +377,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             return (Trainee) query.uniqueResult();
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
+        } finally {
+            session.close();
+        }     
     }
 
     /**
@@ -385,8 +402,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             transaction.commit();
             return(trainers);     
          } catch (HibernateException hibernateException) {
-             throw new HibernateException(hibernateException.getMessage());  
-         }          
+            throw new HibernateException(hibernateException.getMessage());  
+         } finally {
+            session.close();
+        }               
          return null;          
     }*/
 
@@ -407,14 +426,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             Query query = session.createQuery(hql);
             query.setParameter("trainerId",null);
             List<Trainee> trainees = query.list();
-             for (Trainee aTrainee : trainees) {
-                   System.out.println( aTrainee.getEmployeeId()+aTrainee.getName());
-                                   }
+            for (Trainee aTrainee : trainees) {
+                System.out.println( aTrainee.getEmployeeId()+aTrainee.getName());
+            }
             transaction.commit();
             return(trainees); 
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());  
-        }          
+        } finally {
+            session.close();
+        }               
         //return null;
     }*/
 
@@ -429,16 +450,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      *
      * @return - void
      */     
-    public int assignTrainee(Trainer trainer) throws HibernateException{
+    public void assignTrainee(Trainer trainer) throws HibernateException{
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.persist(trainer); 
+            session.update(trainer); 
             transaction.commit(); 
         } catch (HibernateException hibernateException) {
             throw new HibernateException(hibernateException.getMessage());
-        }
-        return 0;        
+        } finally {
+            session.close();
+        }            
     }     
 }

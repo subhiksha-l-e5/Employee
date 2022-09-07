@@ -31,7 +31,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "Trainer")
+@Table(name ="trainer")
 public class Trainer extends Employee {
     @Column(name = "project")
     private String project;
@@ -40,7 +40,7 @@ public class Trainer extends Employee {
     private boolean isActive = true;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "trainer_id")
+    @JoinColumn(name = "id")
     private List<Trainee> trainees;
 
     /**

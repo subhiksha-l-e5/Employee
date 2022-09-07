@@ -53,7 +53,7 @@ public class DateUtil {
      *
      */
      public static boolean isValidDate(String dateOfJoining) {
-        Pattern pattern = Pattern.compile("([1-9]{1}[0-9]{1}[0-9]{1}[0-9]{1})-([0-1]{1}[0-2]{1})-([0-3]{1}[0-9]{1})");
+        Pattern pattern = Pattern.compile("([1-9]{1}[0-9]{1}[0-9]{1}[0-9]{1})-([0-1]{1}[0-9]{1})-([0-3]{1}[0-9]{1})");
         Matcher matcher = pattern.matcher(dateOfJoining);
         boolean isValid = matcher.matches();
         return isValid;

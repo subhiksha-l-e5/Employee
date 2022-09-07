@@ -42,7 +42,7 @@ public interface EmployeeDAO {
      * @param - trainer is the object of Trainer type
      *
      */
-    public int insertTrainer(Trainer trainer) throws HibernateException;
+    public void insertTrainer(Trainer trainer) throws HibernateException;
 
     /**
      * <p>
@@ -52,7 +52,7 @@ public interface EmployeeDAO {
      * @param - trainee is the object of Trainee type
      *
      */
-    public int insertTrainee(Trainee trainee) throws HibernateException ;
+    public void insertTrainee(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -64,7 +64,7 @@ public interface EmployeeDAO {
      * @param - name  for updation
      *
      */
-    public int updateTrainerName(Trainer trainer) throws HibernateException ;
+    public void updateTrainerName(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -76,7 +76,7 @@ public interface EmployeeDAO {
      * @param - name  for updation
      *
      */
-    public int updateTraineeName(Trainee trainee) throws HibernateException ;
+    public void updateTraineeName(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -88,7 +88,7 @@ public interface EmployeeDAO {
      * @param - Designation for updation
      *
      */   
-    public int updateTrainerDesignation(Trainer trainer) throws HibernateException ;
+    public void updateTrainerDesignation(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -100,7 +100,7 @@ public interface EmployeeDAO {
      * @param - Designation for updation
      *
      */    
-    public int updateTraineeDesignation(Trainee trainee) throws HibernateException ; 
+    public void updateTraineeDesignation(Trainee trainee) throws HibernateException ; 
 
     /**
      * <p>
@@ -112,7 +112,7 @@ public interface EmployeeDAO {
      * @param - Salary for updation
      *
      */   
-    public int updateTrainerSalary(Trainer trainer) throws HibernateException ;
+    public void updateTrainerSalary(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -124,7 +124,7 @@ public interface EmployeeDAO {
      * @param - Salary for updation
      *
      */   
-    public int updateTraineeSalary(Trainee trainee) throws HibernateException ;
+    public void updateTraineeSalary(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -136,7 +136,7 @@ public interface EmployeeDAO {
      * @param - project for updation
      *
      */   
-    public int updateProject(Trainer trainer) throws HibernateException ;
+    public void updateProject(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -148,7 +148,7 @@ public interface EmployeeDAO {
      * @param - Task for updation
      *
      */   
-    public int updateTask(Trainee trainee) throws HibernateException ;
+    public void updateTask(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -159,7 +159,7 @@ public interface EmployeeDAO {
      *
      *
      */   
-    public int deleteTrainer(Trainer trainer) throws HibernateException ;
+    public void deleteTrainer(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
@@ -169,7 +169,7 @@ public interface EmployeeDAO {
      * @param - index is used to check the id given by user to delete
      *
      */   
-    public int deleteTrainee(Trainee trainee) throws HibernateException ;
+    public void deleteTrainee(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -221,6 +221,6 @@ public interface EmployeeDAO {
      * @param - trainee id
      *
      */          
-    public int assignTrainee(Trainer trainer) throws HibernateException; 
+    public void assignTrainee(Trainer trainer) throws HibernateException; 
      
 }

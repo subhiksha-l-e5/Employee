@@ -9,7 +9,6 @@ package com.element5.employee.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.hibernate.HibernateException;
 
 import com.element5.employee.dao.EmployeeDAO;
@@ -52,7 +51,7 @@ public interface EmployeeService {
      * @param - project name of trainer
      *
      */    
-    public int addTrainer(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining, String emailId, 
+    public void addTrainer(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining, String emailId, 
                            long mobileNumber, String project) throws HibernateException;
 
     /**
@@ -79,7 +78,7 @@ public interface EmployeeService {
      * @param - task name of trainee
      *
      */
-    public int addTrainee(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining, String emailId,
+    public void addTrainee(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining, String emailId,
                            long mobileNumber, String task, String trainerId) throws HibernateException;
 
     /**
@@ -92,7 +91,7 @@ public interface EmployeeService {
      * @param - employee name for updation
      *
      */
-    public int modifyTrainerName(String employeeId, String newName) throws HibernateException;
+    public void modifyTrainerName(String employeeId, String newName) throws HibernateException;
 
     /**
      * <p>
@@ -104,7 +103,7 @@ public interface EmployeeService {
      * @param - employee name for updation
      *
      */
-    public int modifyTraineeName(String employeeId, String newName) throws HibernateException;
+    public void modifyTraineeName(String employeeId, String newName) throws HibernateException;
 
     /**
      * <p>
@@ -117,7 +116,7 @@ public interface EmployeeService {
      *
      * 
      */    
-    public int modifyTrainerDesignation(String employeeId, String newDesignation) throws HibernateException;
+    public void modifyTrainerDesignation(String employeeId, String newDesignation) throws HibernateException;
 
     /**
      * <p>
@@ -129,7 +128,7 @@ public interface EmployeeService {
      * @param - designation for updation
      *
      */    
-    public int modifyTraineeDesignation(String employeeId, String newDesignation) throws HibernateException;
+    public void modifyTraineeDesignation(String employeeId, String newDesignation) throws HibernateException;
 
     /**
      * <p>
@@ -141,7 +140,7 @@ public interface EmployeeService {
      * @param - salary for updation
      *
      */    
-    public int modifyTrainerSalary(String employeeId, float newSalary) throws HibernateException;
+    public void modifyTrainerSalary(String employeeId, float newSalary) throws HibernateException;
 
     /**
      * <p>
@@ -153,7 +152,7 @@ public interface EmployeeService {
      * @param - salary for updation
      *
      */  
-    public int modifyTraineeSalary(String employeeId, float newSalary) throws HibernateException; 
+    public void modifyTraineeSalary(String employeeId, float newSalary) throws HibernateException; 
 
     /**
      * <p>
@@ -165,7 +164,7 @@ public interface EmployeeService {
      * @param - project for updation
      *
      */  
-    public int modifyProject(String employeeId, String newProject) throws HibernateException;
+    public void modifyProject(String employeeId, String newProject) throws HibernateException;
 
     /**
      * <p>
@@ -177,7 +176,7 @@ public interface EmployeeService {
      * @param - task for updation
      *
      */  
-    public int modifyTask(String employeeId, String newTask) throws HibernateException; 
+    public void modifyTask(String employeeId, String newTask) throws HibernateException; 
 
     /**
      * <p>
@@ -188,7 +187,7 @@ public interface EmployeeService {
      *
      *
      */   
-    public int removeTrainer(String employeeId) throws HibernateException;
+    public void removeTrainer(String employeeId) throws HibernateException;
 
     /**
      * <p>
@@ -198,7 +197,7 @@ public interface EmployeeService {
      * @param - employee id
      *
      */  
-    public int removeTrainee(String employeeId) throws HibernateException;
+    public void removeTrainee(String employeeId) throws HibernateException;
 
     /**
      * <p>
@@ -249,9 +248,9 @@ public interface EmployeeService {
      *
      * @param -  trainee names List
      *
-     * @return - int
+     * @return - void
      */         
-    public int assignTrainee(String trainerId, String traineeId) throws HibernateException; 
+    public void assignTrainee(String trainerId, String traineeId) throws HibernateException; 
 
      
 }

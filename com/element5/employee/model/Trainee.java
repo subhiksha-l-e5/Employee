@@ -27,7 +27,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "Trainee")
+@Table(name = "trainee")
 public class Trainee extends Employee {
     @Column(name = "task")
     private String task;

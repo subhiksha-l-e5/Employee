@@ -12,10 +12,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-
-import org.hibernate.HibernateException;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.hibernate.HibernateException;
 
 import com.element5.employee.model.Employee;
 import com.element5.employee.model.Trainee;
@@ -57,8 +56,9 @@ public class EmployeeController  {
         String userInput = null;
         while(true) {
             try {
-                userInput = input.nextLine(); 
                 input.nextLine(); 
+                userInput = input.nextLine(); 
+                //input.nextLine(); 
                 break;
             } catch (InputMismatchException inputMismatchException) {
                 employeeLogger.info(inputMismatchException.getMessage());
@@ -149,11 +149,8 @@ public class EmployeeController  {
             employeeLogger.info("Enter Project name:");
             String project = input.next(); 
             try {
-                if(1 == employeeServiceImpl.addTrainer(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, project)) {
-                    employeeLogger.info("Trainer added successfully");
-                } else {
-                    employeeLogger.info("Trainer is not added");  
-                }     
+                employeeServiceImpl.addTrainer(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, project);
+                employeeLogger.info("Trainer added successfully");    
             } catch (HibernateException  hibernateException) {
                 employeeLogger.info(hibernateException.getMessage());
             }                    
@@ -162,11 +159,8 @@ public class EmployeeController  {
             String task = input.next(); 
             String trainerId = "null"; 
             try {  
-                if(1 == employeeServiceImpl.addTrainee(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, task ,trainerId)) {
-                     employeeLogger.info("Trainee added successfully");
-                } else {
-                    employeeLogger.info("Trainee is not added");  
-                }     
+                employeeServiceImpl.addTrainee(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, task ,trainerId);
+                employeeLogger.info("Trainee added successfully");
             } catch (HibernateException hibernateException) {
                 employeeLogger.info(hibernateException.getMessage());
             }    
@@ -216,11 +210,8 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new name :");
                                         String newName = input.next();
-                                        if(1 == employeeServiceImpl.modifyTrainerName(employeeId, newName)) {
-                                            employeeLogger.info("Trainer name modified  successfully");
-                                        } else {
-                                            employeeLogger.info("Trainer name is not modified");  
-                                        }     
+                                        employeeServiceImpl.modifyTrainerName(employeeId, newName);
+                                        employeeLogger.info("Trainer name modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
@@ -232,11 +223,8 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         String newDesignation = input.next();
-                                        if(1 == employeeServiceImpl.modifyTrainerDesignation(employeeId, newDesignation)) {
-                                            employeeLogger.info("Trainer designation modified  successfully");
-                                        } else {
-                                            employeeLogger.info("Trainer designation is not modified");  
-                                        }     
+                                        employeeServiceImpl.modifyTrainerDesignation(employeeId, newDesignation);
+                                        employeeLogger.info("Trainer designation modified  successfully");  
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
@@ -248,11 +236,8 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         float newSalary = input.nextFloat();
-                                        if(1 == employeeServiceImpl.modifyTrainerSalary(employeeId, newSalary)) {
-                                            employeeLogger.info("Trainer salary modified  successfully");
-                                        } else {
-                                            employeeLogger.info("Trainer salary is not modified");  
-                                        }     
+                                        employeeServiceImpl.modifyTrainerSalary(employeeId, newSalary);
+                                        employeeLogger.info("Trainer salary modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
@@ -264,11 +249,8 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new project :");
                                         String newProject = input.next();
-                                        if(1 == employeeServiceImpl.modifyProject(employeeId, newProject)) {
-                                            employeeLogger.info("Trainer project modified  successfully");
-                                        } else {
-                                            employeeLogger.info("Trainer project is not modified");  
-                                        }     
+                                        employeeServiceImpl.modifyProject(employeeId, newProject);
+                                        employeeLogger.info("Trainer project modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
@@ -291,11 +273,8 @@ public class EmployeeController  {
                                try {
                                    employeeLogger.info("Enter id:");   
                                    String employeeId = input.next();
-                                   if (1 == employeeServiceImpl.removeTrainer(employeeId)) {
-                                       employeeLogger.info("Trainer deleted  successfully");
-                                   } else {
-                                       employeeLogger.info("Trainer is not deleted ");  
-                                   }      
+                                   employeeServiceImpl.removeTrainer(employeeId);
+                                   employeeLogger.info("Trainer deleted  successfully"); 
                                } catch (HibernateException hibernateException) {
                                    employeeLogger.info(hibernateException.getMessage());
                                }
@@ -325,11 +304,8 @@ public class EmployeeController  {
                                    employeeLogger.info("Enter the trainee id:");
                                    String traineeId = input.next();
                                    try {
-                                       if (1 == employeeServiceImpl.assignTrainee(trainerId, traineeId)) {
-                                           employeeLogger.info("Trainer is assigned with trainee");
-                                       }else {
-                                           employeeLogger.info(" Trainee is not assigned");
-                                       }
+                                       employeeServiceImpl.assignTrainee(trainerId, traineeId);
+                                       employeeLogger.info("Trainer is assigned with trainee");
                                    } catch (HibernateException hibernateException) {
                                        employeeLogger.info(hibernateException.getMessage());
                                    }
@@ -372,11 +348,8 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new name :");
                                         String newName = input.next();
-                                        if(1 == employeeServiceImpl.modifyTraineeName(employeeId, newName)) {
-                                            employeeLogger.info("Trainee name modified  successfully");
-                                        } else {
-                                            employeeLogger.info("Trainee name is not modified");  
-                                        }     
+                                        employeeServiceImpl.modifyTraineeName(employeeId, newName);
+                                        employeeLogger.info("Trainee name modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
@@ -388,11 +361,8 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         String newDesignation = input.next();
-                                        if(1 == employeeServiceImpl.modifyTraineeDesignation(employeeId, newDesignation)) {
-                                            employeeLogger.info("Trainee designation modified  successfully");
-                                        } else {
-                                            employeeLogger.info("Trainee designation is not modified");  
-                                        }     
+                                        employeeServiceImpl.modifyTraineeDesignation(employeeId, newDesignation);
+                                        employeeLogger.info("Trainee designation modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
@@ -404,11 +374,8 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         float newSalary = input.nextFloat();
-                                        if(1 == employeeServiceImpl.modifyTraineeSalary(employeeId, newSalary)) {
-                                            employeeLogger.info("Trainee salary modified  successfully");
-                                        } else {
-                                            employeeLogger.info("Trainee salary is not modified");  
-                                        }     
+                                        employeeServiceImpl.modifyTraineeSalary(employeeId, newSalary);
+                                        employeeLogger.info("Trainee salary modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
@@ -420,11 +387,8 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new task :");
                                         String newTask = input.next();
-                                        if(1 == employeeServiceImpl.modifyTask(employeeId, newTask)) {
-                                            employeeLogger.info("Trainee task modified  successfully");
-                                        } else {
-                                            employeeLogger.info("Trainee task is not modified");  
-                                        }     
+                                        employeeServiceImpl.modifyTask(employeeId, newTask);
+                                        employeeLogger.info("Trainee task modified  successfully"); 
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
@@ -446,11 +410,8 @@ public class EmployeeController  {
                                 try {
                                     employeeLogger.info("Enter id:");   
                                     String employeeId = input.next();
-                                    if (1 == employeeServiceImpl.removeTrainee(employeeId)) {
-                                        employeeLogger.info("Trainee deleted  successfully");
-                                    } else {
-                                        employeeLogger.info("Trainee is not deleted ");  
-                                    }      
+                                    employeeServiceImpl.removeTrainee(employeeId);
+                                    employeeLogger.info("Trainee deleted  successfully");
                                 } catch (HibernateException hibernateException) {
                                     hibernateException.getMessage();
                                 }
@@ -461,10 +422,8 @@ public class EmployeeController  {
                                 break;
 
                             default:
-                                break;
-                            
-                        }
-                        
+                                break;   
+                        }  
                     }    
                     break;
 
@@ -476,7 +435,7 @@ public class EmployeeController  {
                     break;
             }  
  
-        }  
+        }   
     }
     
     /**
