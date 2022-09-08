@@ -345,7 +345,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            String hql = "from trainer  where employee_id =:employeeId";
+            String hql = "from Trainer where employeeId =:employeeId";
             Query query = session.createQuery(hql);
             query.setParameter("employeeId",employeeId);
             transaction.commit();   
@@ -370,7 +370,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            String hql = "from trainee  where employee_id =: employeeId";
+            String hql = "from Trainee  where employeeId =: employeeId";
             Query query = session.createQuery(hql);
             query.setParameter("employeeId",employeeId);
             transaction.commit();
@@ -417,18 +417,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
      * @param - index is used to view the name of trainee
      *
      */           
-    /*public List<Trainee> retrieveUnAssignedTrainee() throws HibernateException{
+    public List<Trainee> retrieveUnAssignedTrainee() throws HibernateException{
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            String hql = "select employee_id ,name from trainee  where trainer_id =: trainerId";
+            String hql = "select employeeId ,name from Trainee  where trainerId =: trainerId";
             Query query = session.createQuery(hql);
             query.setParameter("trainerId",null);
             List<Trainee> trainees = query.list();
-            for (Trainee aTrainee : trainees) {
-                System.out.println( aTrainee.getEmployeeId()+aTrainee.getName());
-            }
             transaction.commit();
             return(trainees); 
         } catch (HibernateException hibernateException) {
@@ -437,7 +434,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             session.close();
         }               
         //return null;
-    }*/
+    }
 
      /**
      * <p>

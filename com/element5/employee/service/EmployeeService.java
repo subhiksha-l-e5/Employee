@@ -237,7 +237,7 @@ public interface EmployeeService {
      * @return - String return unassigned trainee names
      *
      */      
-    //public List<Trainee> getUnAssignedTrainee() throws HibernateException; 
+    public List<Trainee> getUnAssignedTrainee() throws HibernateException; 
     
     /**
      * <p>

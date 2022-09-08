@@ -11,9 +11,11 @@ package com.element5.employee.model;
 
 import java.time.LocalDate;
 import javax.persistence.Column;  
-import javax.persistence.Entity;  
+import javax.persistence.Entity; 
+import javax.persistence.JoinColumn;   
 import javax.persistence.Id;  
 import javax.persistence.Table;  
+import javax.persistence.ManyToOne;  
 
 /**
  * <p>
@@ -32,11 +34,14 @@ public class Trainee extends Employee {
     @Column(name = "task")
     private String task;
 
-    @Column(name = "trainer_id")
-    private String trainerId;
+    //@ManyToOne
+   // @JoinColumn(name ="trainer_id")
+   // private Trainer trainer;
 
     @Column(name = "is_Active")
     private boolean isActive = true;
+
+    private String trainerId;
 
     /**
      * <p>
@@ -64,31 +69,6 @@ public class Trainee extends Employee {
         return task;
      }
 
-    /**
-     * <p>
-     * This method is used to set trainer id given by user
-     * </p>
-     *
-     * @param - trainerId is the trainer assigned to Trainee
-     *
-     * @return - void
-     *
-     */
-    public void setTrainerId(String trainerId) {
-       this.trainerId = trainerId;
-     }
-   
-    /**
-     * <p>
-     * This method is used to return trainer of trainee
-     * </p>
-     *
-     * @return - String returns trainer of trainee
-     *
-     */    
-    public String getTrainerId() {
-        return trainerId;
-     }
    
     /**
      * <p>
@@ -140,6 +120,7 @@ public class Trainee extends Employee {
         super(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber);  
         this.task = task;
         this.trainerId = trainerId;
+       
     } 
   
     /**

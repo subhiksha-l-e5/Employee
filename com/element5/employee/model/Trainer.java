@@ -14,6 +14,7 @@ import java.util.List;
 import javax.persistence.CascadeType;  
 import javax.persistence.Column;  
 import javax.persistence.Entity;  
+import javax.persistence.FetchType;  
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;    
 import javax.persistence.OneToMany;    
@@ -39,8 +40,7 @@ public class Trainer extends Employee {
     @Column(name = "is_Active")
     private boolean isActive = true;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Trainee> trainees;
 
     /**

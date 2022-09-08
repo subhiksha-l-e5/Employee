@@ -311,9 +311,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return Trainee returns trainee
      *
      */   
-   /*public List<Trainee> getUnAssignedTrainee() throws HibernateException {
+   public List<Trainee> getUnAssignedTrainee() throws HibernateException {
         return employeeDaoImpl.retrieveUnAssignedTrainee();        
-   }*/
+   }
    
     /**
      * <p>
@@ -329,9 +329,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void assignTrainee(String trainerId, String traineeId) throws HibernateException {
         Trainee trainee = employeeDaoImpl.retrieveTrainee(traineeId);
         Trainer trainer = employeeDaoImpl.retrieveTrainer(trainerId);
-        List<Trainee> trainees = new ArrayList<Trainee>() ;
-        trainees.add(trainee);
-        trainer.setTrainees(trainees);
+        trainer.getTrainees().add(trainee);
         employeeDaoImpl.assignTrainee(trainer);    
     }     
 

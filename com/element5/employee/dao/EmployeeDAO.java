@@ -209,7 +209,7 @@ public interface EmployeeDAO {
      * @param - index is used to view the name of unassigned Trainee
      *
      */       
-   // public List<Trainee> retrieveUnAssignedTrainee() throws HibernateException; 
+     public List<Trainee> retrieveUnAssignedTrainee() throws HibernateException; 
 
      /**
      * <p>

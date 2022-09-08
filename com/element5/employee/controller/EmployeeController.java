@@ -286,16 +286,16 @@ public class EmployeeController  {
                                    employeeServiceImpl.getUnAssignedTrainer(); 
                                } catch (HibernateException hibernateException) {
                                    employeeLogger.info(hibernateException.getMessage());
-                               }  
+                               }*/  
                                try {
                                    employeeLogger.info("Unassigned trainees:"); 
                                    List<Trainee> trainees = employeeServiceImpl.getUnAssignedTrainee(); 
-                                   for (Trainee aTrainee : trainees) {
-                                         employeeLogger.info( aTrainee.getEmployeeId()+aTrainee.getName());
+                                   for (Trainee trainee:trainees) {
+                                       employeeLogger.info( trainee.getEmployeeId()+trainee.getName());
                                    }
                                } catch (HibernateException hibernateException) {
                                        employeeLogger.info(hibernateException.getMessage());
-                               } */
+                               } 
                                employeeLogger.info("Enter the trainer id:");
                                String trainerId = input.next();
                                employeeLogger.info("Enter the number of trainees:"); 
