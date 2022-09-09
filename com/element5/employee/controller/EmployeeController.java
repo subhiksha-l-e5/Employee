@@ -23,6 +23,7 @@ import com.element5.employee.service.EmployeeService;
 import com.element5.employee.service.impl.EmployeeServiceImpl;
 import com.element5.employee.util.DateUtil;
 import com.element5.employee.util.StringUtil;
+import com.element5.employee.util.ConstantUtil;
 
 /**
  * <p>
@@ -58,7 +59,6 @@ public class EmployeeController  {
             try {
                 input.nextLine(); 
                 userInput = input.nextLine(); 
-                //input.nextLine(); 
                 break;
             } catch (InputMismatchException inputMismatchException) {
                 employeeLogger.info(inputMismatchException.getMessage());
@@ -157,9 +157,8 @@ public class EmployeeController  {
         } else if (2 == userRole) {
             employeeLogger.info("Enter Task name:");
             String task = input.next(); 
-            String trainerId = "null"; 
             try {  
-                employeeServiceImpl.addTrainee(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, task ,trainerId);
+                employeeServiceImpl.addTrainee(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, task);
                 employeeLogger.info("Trainee added successfully");
             } catch (HibernateException hibernateException) {
                 employeeLogger.info(hibernateException.getMessage());
@@ -201,7 +200,7 @@ public class EmployeeController  {
                                 break;
 
                             case 2:
-                                employeeLogger.info("press 1 to update name, 2 to update designation, 3 to update salary, 4 to update project");
+                                employeeLogger.info("press 1 to update name, 2 to update designation, 3 to update project");
                                 int updateChoice = input.nextInt();
                                 switch (updateChoice) {
                                 case 1:
@@ -210,7 +209,7 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new name :");
                                         String newName = input.next();
-                                        employeeServiceImpl.modifyTrainerName(employeeId, newName);
+                                        employeeServiceImpl.modifyTrainer(employeeId, newName, ConstantUtil.name);
                                         employeeLogger.info("Trainer name modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
@@ -223,33 +222,20 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         String newDesignation = input.next();
-                                        employeeServiceImpl.modifyTrainerDesignation(employeeId, newDesignation);
+                                        employeeServiceImpl.modifyTrainer(employeeId, newDesignation, ConstantUtil.designation);
                                         employeeLogger.info("Trainer designation modified  successfully");  
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
                    
-                                case 3:
-                                    try {
-                                        employeeLogger.info("Enter employee id:");
-                                        String employeeId = input.next();
-                                        employeeLogger.info("Enter new designation :");
-                                        float newSalary = input.nextFloat();
-                                        employeeServiceImpl.modifyTrainerSalary(employeeId, newSalary);
-                                        employeeLogger.info("Trainer salary modified  successfully");
-                                    } catch (HibernateException hibernateException) {
-                                        employeeLogger.info(hibernateException.getMessage());
-                                    }
-                                    break;
- 
-                               case 4:
+                               case 3:
                                     try {
                                         employeeLogger.info("Enter employee id:");
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new project :");
                                         String newProject = input.next();
-                                        employeeServiceImpl.modifyProject(employeeId, newProject);
+                                        employeeServiceImpl.modifyTrainer(employeeId, newProject, ConstantUtil.project);
                                         employeeLogger.info("Trainer project modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
@@ -281,21 +267,6 @@ public class EmployeeController  {
                                break;     
                        
                            case 5:        
-                               /*try {
-                                   employeeLogger.info("Unassigned trainers:");  
-                                   employeeServiceImpl.getUnAssignedTrainer(); 
-                               } catch (HibernateException hibernateException) {
-                                   employeeLogger.info(hibernateException.getMessage());
-                               }*/  
-                               try {
-                                   employeeLogger.info("Unassigned trainees:"); 
-                                   List<Trainee> trainees = employeeServiceImpl.getUnAssignedTrainee(); 
-                                   for (Trainee trainee:trainees) {
-                                       employeeLogger.info( trainee.getEmployeeId()+trainee.getName());
-                                   }
-                               } catch (HibernateException hibernateException) {
-                                       employeeLogger.info(hibernateException.getMessage());
-                               } 
                                employeeLogger.info("Enter the trainer id:");
                                String trainerId = input.next();
                                employeeLogger.info("Enter the number of trainees:"); 
@@ -305,7 +276,6 @@ public class EmployeeController  {
                                    String traineeId = input.next();
                                    try {
                                        employeeServiceImpl.assignTrainee(trainerId, traineeId);
-                                       employeeLogger.info("Trainer is assigned with trainee");
                                    } catch (HibernateException hibernateException) {
                                        employeeLogger.info(hibernateException.getMessage());
                                    }
@@ -348,7 +318,7 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new name :");
                                         String newName = input.next();
-                                        employeeServiceImpl.modifyTraineeName(employeeId, newName);
+                                        employeeServiceImpl.modifyTrainee(employeeId, newName, ConstantUtil.name);
                                         employeeLogger.info("Trainee name modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
@@ -361,33 +331,20 @@ public class EmployeeController  {
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new designation :");
                                         String newDesignation = input.next();
-                                        employeeServiceImpl.modifyTraineeDesignation(employeeId, newDesignation);
+                                        employeeServiceImpl.modifyTrainee(employeeId, newDesignation, ConstantUtil.designation);
                                         employeeLogger.info("Trainee designation modified  successfully");
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());
                                     }
                                     break;
-                   
-                                case 3:
-                                    try {
-                                        employeeLogger.info("Enter employee id:");
-                                        String employeeId = input.next();
-                                        employeeLogger.info("Enter new designation :");
-                                        float newSalary = input.nextFloat();
-                                        employeeServiceImpl.modifyTraineeSalary(employeeId, newSalary);
-                                        employeeLogger.info("Trainee salary modified  successfully");
-                                    } catch (HibernateException hibernateException) {
-                                        employeeLogger.info(hibernateException.getMessage());
-                                    }
-                                    break;
  
-                               case 4:
+                               case 3:
                                     try {
                                         employeeLogger.info("Enter employee id:");
                                         String employeeId = input.next();
                                         employeeLogger.info("Enter new task :");
                                         String newTask = input.next();
-                                        employeeServiceImpl.modifyTask(employeeId, newTask);
+                                        employeeServiceImpl.modifyTrainee(employeeId, newTask, ConstantUtil.task);
                                         employeeLogger.info("Trainee task modified  successfully"); 
                                     } catch (HibernateException hibernateException) {
                                         employeeLogger.info(hibernateException.getMessage());

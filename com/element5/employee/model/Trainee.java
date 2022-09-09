@@ -34,14 +34,12 @@ public class Trainee extends Employee {
     @Column(name = "task")
     private String task;
 
-    //@ManyToOne
-   // @JoinColumn(name ="trainer_id")
-   // private Trainer trainer;
+    @ManyToOne
+    @JoinColumn(name ="trainer_id")
+    private Trainer trainer;
 
     @Column(name = "is_Active")
     private boolean isActive = true;
-
-    private String trainerId;
 
     /**
      * <p>
@@ -68,7 +66,32 @@ public class Trainee extends Employee {
     public String getTask() {
         return task;
      }
-
+   
+      /**
+     * <p>
+     * This method is used to set trainer 
+     * </p>
+     *
+     * @param - trainer assigned to Trainee
+     *
+     * @return - void
+     *
+     */
+    public void setTrainer(Trainer trainer) {
+       this.trainer = trainer;
+     }
+    
+    /**
+     * <p>
+     * This method is used to return trainer of trainee
+     * </p>
+     *
+     * @return - int returns trainer of trainee
+     *
+     */    
+    public Trainer getTrainer() {
+        return trainer;
+     }
    
     /**
      * <p>
@@ -116,11 +139,9 @@ public class Trainee extends Employee {
      *
      */    
     public Trainee(String employeeId, String name, String designation, float salary,
-                   LocalDate dateOfJoining, String emailId, long mobileNumber, String task, String traineeId) {
+                   LocalDate dateOfJoining, String emailId, long mobileNumber, String task) {
         super(employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber);  
         this.task = task;
-        this.trainerId = trainerId;
-       
     } 
   
     /**

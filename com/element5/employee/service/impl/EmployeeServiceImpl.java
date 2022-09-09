@@ -87,150 +87,71 @@ public class EmployeeServiceImpl implements EmployeeService {
      *
      */
     public void addTrainee(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining,
-                           String emailId, long mobileNumber, String task, String trainerId) throws HibernateException {
-        Trainee trainee = new Trainee( employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, task, trainerId);
+                           String emailId, long mobileNumber, String task) throws HibernateException {
+        Trainee trainee = new Trainee( employeeId, name, designation, salary, dateOfJoining, emailId, mobileNumber, task);
         employeeDaoImpl.insertTrainee(trainee);
     }
 
     /**
      * <p>
-     * This method update Trainer name by id with new name  
+     * This method update Trainer  by id  
      * </p>
      *
      * @param - employee id
      *
      * @param - employee name for updation
      *
-     * @return - int
      */
-    public void modifyTrainerName(String employeeId, String newName) throws HibernateException { 
-        Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
-        trainer.setName(newName); 
-        employeeDaoImpl.updateTrainerName(trainer);     
+    public void modifyTrainer(String employeeId, String newValue, String modifyValue) throws HibernateException { 
+        switch (modifyValue) {
+            case "name":
+               Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
+               trainer.setName(newValue); 
+               employeeDaoImpl.updateTrainer(trainer);
+               break;
+            
+            case "designation":
+               Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
+               trainer.setDesignation(newValue);
+               employeeDaoImpl.updateTrainer(trainer);
+               break; 
+           
+            case "project":
+               Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
+               trainer.setProject(newValue);
+               employeeDaoImpl.updateTrainer(trainer);
+               break;
+         
+            default:
+                break;
+        }
     }
 
-    /**
-     * <p>
-     * This method update Trainee name by id with new name
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - employee name for updation
-     *
-     * @return - int
-     *
-     */
-    public void modifyTraineeName(String employeeId, String newName) throws HibernateException { 
-        Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
-        trainee.setName(newName);
-        employeeDaoImpl.updateTraineeName(trainee);   
+    public void modifyTrainee(String employeeId, String newValue, String modifyValue) throws HibernateException { 
+        switch (modifyValue) {
+           case "name":
+               Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
+               trainee.setName(newValue); 
+               employeeDaoImpl.updateTrainee(trainee);
+               break;
+            
+           case "designation":
+                Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
+                trainee.setDesignation(newValue);
+                employeeDaoImpl.updateTrainee(trainee);
+                break; 
+           
+           case "project":
+                Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
+                trainee.setTask(newValue);
+                employeeDaoImpl.updateTrainee(trainee);
+                break;
+         
+           default:
+                break;
+        }
     }
-
-    /**
-     * <p>
-     * This method update Trainer designation by id with new designation
-     * </p>
-     * @param - employee id
-     *
-     * @param - designation for updation
-     *
-     * @return - int
-     *    
-     */
-    public void modifyTrainerDesignation(String employeeId, String newDesignation) throws HibernateException {
-        Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
-        trainer.setDesignation(newDesignation);
-        employeeDaoImpl.updateTrainerDesignation(trainer);    
-    }
-
-    /**
-     * <p>
-     * This method update Trainee designation by id with new designation     
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - designation for updation
-     *
-     * @return - int
-     *
-     */   
-    public void modifyTraineeDesignation(String employeeId, String newDesignation) throws HibernateException {
-        Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
-        trainee.setDesignation(newDesignation);
-        employeeDaoImpl.updateTraineeDesignation(trainee);
-    } 
-
-    /**
-     * <p>
-     * This method update Trainer salary by id with new salary
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - salary for updation
-     *
-     * @return - int
-     *
-     */  
-    public void modifyTrainerSalary(String employeeId, float newSalary) throws HibernateException {
-        Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
-        trainer.setSalary(newSalary);
-        employeeDaoImpl.updateTrainerSalary(trainer);
-    }
-
-    /**
-     * <p>
-     * This method update Trainee salary by id with new salary
-     * </p>
-     * @param - employee id
-     *
-     * @param - salary for updation
-     *
-     * @return - int
-     *
-     */  
-    public void modifyTraineeSalary(String employeeId, float newSalary) throws HibernateException {
-        Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
-        trainee.setSalary(newSalary);
-        employeeDaoImpl.updateTraineeSalary(trainee);
-    }
-
-    /**
-     * <p>
-     * This method update Trainer project by id with new project
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - project for updation
-     *
-     * @return - int
-     *
-     */  
-    public void modifyProject(String employeeId, String newProject) throws HibernateException {
-        Trainer trainer = employeeDaoImpl.retrieveTrainer(employeeId);
-        trainer.setProject(newProject);
-        employeeDaoImpl.updateProject(trainer);
-    }
-
-    /**
-     * <p>
-     * This method update Trainee task by id with new task
-     * </p>
-     * @param - employee id
-     *
-     * @param - task for updation
-     *
-     * @return - int
-     *
-     */  
-    public void modifyTask(String employeeId, String newTask) throws HibernateException {
-        Trainee trainee = employeeDaoImpl.retrieveTrainee(employeeId);
-        trainee.setTask(newTask);
-        employeeDaoImpl.updateTask(trainee);
-    }
+    
     /**
      * <p>
      * This method  deletes Trainer  by id      
@@ -290,30 +211,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Trainee getTrainee(String employeeId) throws HibernateException{
         return employeeDaoImpl.retrieveTrainee(employeeId);      
     }
-     
-    /**
-     * <p>
-     * This method  returns unassigned  Trainer   
-     * </p> 
-     *
-     * @return Trainer returns trainer
-     *
-     */  
-   /*public List<Trainer> getUnAssignedTrainer() throws HibernateException {
-        return employeeDaoImpl.retrieveUnAssignedTrainer();
-   }*/
-
-    /**
-     * <p>
-     * This method  returns unassigned  Trainee   
-     * </p> 
-     *
-     * @return Trainee returns trainee
-     *
-     */   
-   public List<Trainee> getUnAssignedTrainee() throws HibernateException {
-        return employeeDaoImpl.retrieveUnAssignedTrainee();        
-   }
    
     /**
      * <p>

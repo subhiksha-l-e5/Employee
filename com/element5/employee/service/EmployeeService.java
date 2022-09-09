@@ -79,104 +79,35 @@ public interface EmployeeService {
      *
      */
     public void addTrainee(String employeeId, String name, String designation, float salary, LocalDate dateOfJoining, String emailId,
-                           long mobileNumber, String task, String trainerId) throws HibernateException;
+                           long mobileNumber, String task) throws HibernateException;
 
     /**
      * <p>
-     * The modifyTrainerName method update Trainer name by id with new name
+     * The modifyTrainer method updates Trainer
      * </p>
      *
      * @param - employee id
      *
-     * @param - employee name for updation
+     * @param - new value for updation
+     *
+     * @param - modifyValue for case choice
      *
      */
-    public void modifyTrainerName(String employeeId, String newName) throws HibernateException;
+    public void modifyTrainer(String employeeId, String newValue,String modifyValue) throws HibernateException;
 
     /**
      * <p>
-     * The modifyTraineeName method update Trainee name by id with new name   
+     * The modifyTrainee method updates Trainee  
      * </p>
      *
      * @param - employee id
      *
-     * @param - employee name for updation
+     * @param - new value for updation
+     *
+     * @param - modifyValue for case choice
      *
      */
-    public void modifyTraineeName(String employeeId, String newName) throws HibernateException;
-
-    /**
-     * <p>
-     * The modifyTrainerDesignation method update Trainer designation by id with new designation  
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - designation for updation
-     *
-     * 
-     */    
-    public void modifyTrainerDesignation(String employeeId, String newDesignation) throws HibernateException;
-
-    /**
-     * <p>
-     * The modifyTraineeDesignation method update Trainee designation by id with new designation
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - designation for updation
-     *
-     */    
-    public void modifyTraineeDesignation(String employeeId, String newDesignation) throws HibernateException;
-
-    /**
-     * <p>
-     * The modifyTrainerSalary method update Trainer salary by id with new salary
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - salary for updation
-     *
-     */    
-    public void modifyTrainerSalary(String employeeId, float newSalary) throws HibernateException;
-
-    /**
-     * <p>
-     * The modifyTraineeSalary method update Trainee salary by id with new salary     
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - salary for updation
-     *
-     */  
-    public void modifyTraineeSalary(String employeeId, float newSalary) throws HibernateException; 
-
-    /**
-     * <p>
-     * The modifyTrainerProject method update project by id with new project     
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - project for updation
-     *
-     */  
-    public void modifyProject(String employeeId, String newProject) throws HibernateException;
-
-    /**
-     * <p>
-     * The modifyTrainerProject method update task by id with new project     
-     * </p>
-     *
-     * @param - employee id
-     *
-     * @param - task for updation
-     *
-     */  
-    public void modifyTask(String employeeId, String newTask) throws HibernateException; 
+    public void modifyTrainee(String employeeId, String newName, String modifyValue) throws HibernateException;
 
     /**
      * <p>
@@ -219,26 +150,6 @@ public interface EmployeeService {
      */    
     public Trainee getTrainee(String employeeId) throws HibernateException; 
 
-    /**
-     * <p>
-     * This method  returns unassigned Trainer
-     * </p>
-     *
-     * @return - String return unassigned trainer names
-     *
-     */    
-    //public List<Trainer> getUnAssignedTrainer() throws HibernateException;
- 
-    /**
-     * <p>
-     * This method  returns unassigned Trainee
-     * </p>
-     *
-     * @return - String return unassigned trainee names
-     *
-     */      
-    public List<Trainee> getUnAssignedTrainee() throws HibernateException; 
-    
     /**
      * <p>
      * This method  is used to assign  Trainee for Trainer  

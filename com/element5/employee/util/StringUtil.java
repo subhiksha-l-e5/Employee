@@ -1,6 +1,6 @@
 /*
  * <p>
- * Copyrights 2022 element5
+ * Copyrights 2022 Element5
  * This package com.element5.employee.util has StringUtil class
  * </p>
  */

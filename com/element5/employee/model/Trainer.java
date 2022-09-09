@@ -39,8 +39,9 @@ public class Trainer extends Employee {
 
     @Column(name = "is_Active")
     private boolean isActive = true;
-
-    @OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+     
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name ="trainer_id")
     private List<Trainee> trainees;
 
     /**
@@ -68,11 +69,26 @@ public class Trainer extends Employee {
     public String getProject() {
         return project;
     }
-
+    
+    /**
+     * <p>
+     * This method is used to return trainees of trainer
+     * </p>
+     *
+     * @return - Trainee
+     * 
+     */    
     public List<Trainee> getTrainees() {
         return trainees;
     }
 
+     /**
+     * <p>
+     * This method is used to set trainees of trainer
+     * </p>
+     *
+     * 
+     */    
     public void setTrainees(List<Trainee> trainees) {
         this.trainees = trainees;
     }

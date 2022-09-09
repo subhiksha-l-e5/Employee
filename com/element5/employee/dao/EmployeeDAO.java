@@ -26,14 +26,7 @@ import com.element5.employee.model.Trainer;
  *
  */
 public interface EmployeeDAO {
-     /**
-     * <p>
-     * This method is used to return SessionFactory
-     * </p>
-     *
-     */
-    public SessionFactory getSessionFactory();
-
+     
     /**
      * <p>
      * This method is used to add Trainer
@@ -56,99 +49,23 @@ public interface EmployeeDAO {
 
     /**
      * <p>
-     * This method is used to update name of Trainer
+     * This method is used to update Trainer
      * </p>
      *
-     * @param - index is used to check the id given by user
-     *
-     * @param - name  for updation
+     * @param - trainer  for updation
      *
      */
-    public void updateTrainerName(Trainer trainer) throws HibernateException ;
+    public void updateTrainer(Trainer trainer) throws HibernateException ;
 
     /**
      * <p>
-     * This method is used to update name of Trainee
+     * This method is used to update  Trainee
      * </p>
      *
-     * @param - index is used to check the id given by user
-     *
-     * @param - name  for updation
+     * @param - trainee for updation
      *
      */
-    public void updateTraineeName(Trainee trainee) throws HibernateException ;
-
-    /**
-     * <p>
-     * This method is used to update Designation of Trainer
-     * </p>
-     *
-     * @param - index is used to check the id given by user
-     *
-     * @param - Designation for updation
-     *
-     */   
-    public void updateTrainerDesignation(Trainer trainer) throws HibernateException ;
-
-    /**
-     * <p>
-     * This method is used to update Designation of Trainee
-     * </p>
-     *
-     * @param - index is used to check the id given by user
-     *
-     * @param - Designation for updation
-     *
-     */    
-    public void updateTraineeDesignation(Trainee trainee) throws HibernateException ; 
-
-    /**
-     * <p>
-     * This method is used to update salary of Trainer  
-     * </p>
-     *
-     * @param - index is used to check the id given by user
-     *
-     * @param - Salary for updation
-     *
-     */   
-    public void updateTrainerSalary(Trainer trainer) throws HibernateException ;
-
-    /**
-     * <p>
-     * This method is used to update salary of Trainee
-     * </p>
-     *
-     * @param - index is used to check the id given by user
-     *
-     * @param - Salary for updation
-     *
-     */   
-    public void updateTraineeSalary(Trainee trainee) throws HibernateException ;
-
-    /**
-     * <p>
-     * This method is used to update project of Trainer  
-     * </p>
-     *
-     * @param - index is used to check the id given by user
-     *
-     * @param - project for updation
-     *
-     */   
-    public void updateProject(Trainer trainer) throws HibernateException ;
-
-    /**
-     * <p>
-     * This method is used to update Task of Trainer   
-     * </p>
-     *
-     * @param - index is used to check the id given by user
-     *
-     * @param - Task for updation
-     *
-     */   
-    public void updateTask(Trainee trainee) throws HibernateException ;
+    public void updateTrainee(Trainee trainee) throws HibernateException ;
 
     /**
      * <p>
@@ -190,26 +107,6 @@ public interface EmployeeDAO {
      *
      */       
     public Trainee retrieveTrainee(String id) throws HibernateException; 
-
-    /**
-     * <p>
-     * This method is used to view unassigned Trainer    
-     * </p>
-     *
-     * @param - index is used to view the name of unassigned Trainer
-     *
-     */      
-   // public List<Trainer> retrieveUnAssignedTrainer() throws HibernateException; 
-
-    /**
-     * <p>
-     * This method is used to view unassigned Trainee    
-     * </p>
-     *
-     * @param - index is used to view the name of unassigned Trainee
-     *
-     */       
-     public List<Trainee> retrieveUnAssignedTrainee() throws HibernateException; 
 
      /**
      * <p>
